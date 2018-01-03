@@ -1,0 +1,22 @@
+{
+    "compileOnSave": false,
+    "compilerOptions": {
+        "target": "es6",
+        "module": "system",
+        "sourceMap": false,
+        "inlineSources": false,
+        "experimentalDecorators": true,
+        "outFile": "./app/app.js"
+        //"rootDir": "."
+    },
+    "exclude": [
+        //"../../Chronos"
+    ],
+    "filesGlob": [
+        "./*.ts",
+        "./**/*.ts",
+        "!./*.d.ts",
+        "!./**/*.d.ts",
+        "!./node_modules/**/*.ts"
+    ]
+}

@@ -1,0 +1,23 @@
+<html>
+    <head>
+        <script src="./System/system.js"></script>
+        <script src="./chronos.js"></script>
+    </head>
+    <body>
+        
+    </body>
+    <script>
+        var packages = {
+            'app' : {
+                main: './app.js',
+                defaultExtension: 'js'
+            }
+        };
+        System.config({
+            packages : packages
+        });
+        System.import('app').catch(function(err) {
+            console.error(err);
+        });
+    </script>
+</html>
