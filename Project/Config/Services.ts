@@ -1,4 +1,3 @@
-import { Service } from "Di/Service";
 
 export class Services
 {
@@ -7,6 +6,5 @@ export class Services
      */
     public initialize(di)
     {
-        
     }
 }

@@ -1,6 +1,7 @@
+
+import { Services }        from "./Services.js";
 import { ConfigInterface } from "Config/ConfigInterface";
-import { Services } from "./Services";
-import { IndexController } from "../Controllers/IndexController";
+import { IndexController } from "../Controllers/IndexController.js";
 
 export class AppConfig implements ConfigInterface
 {
