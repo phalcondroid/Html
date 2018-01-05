@@ -1,4 +1,4 @@
-System.register(["Mvc/Controller"], function (exports_1, context_1) {
+System.register(["Mvc/Controller", "../Views/SelectExample.js"], function (exports_1, context_1) {
     "use strict";
     var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
         var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
@@ -7,11 +7,14 @@ System.register(["Mvc/Controller"], function (exports_1, context_1) {
         return c > 3 && r && Object.defineProperty(target, key, r), r;
     };
     var __moduleName = context_1 && context_1.id;
-    var Controller_1, Selec, Selec2, IndexController;
+    var Controller_1, SelectExample_js_1, Selec, Selec2, IndexController;
     return {
         setters: [
             function (Controller_1_1) {
                 Controller_1 = Controller_1_1;
+            },
+            function (SelectExample_js_1_1) {
+                SelectExample_js_1 = SelectExample_js_1_1;
             }
         ],
         execute: function () {
@@ -31,27 +34,21 @@ System.register(["Mvc/Controller"], function (exports_1, context_1) {
                 initialize() {
                     console.log("initialize controller");
                 }
-                julian(ViewModel) {
+                container(ViewModel) {
                     new ViewModel({
                         "data": "mas data"
-                    });
-                }
-                julian2(ViewModel) {
-                    new ViewModel({
-                        "data2": "mas data222"
                     });
                 }
             };
             __decorate([
                 View({
-                    "elements": Selec
+                    "elements": SelectExample_js_1.SelectExample,
+                    "initialize": {
+                        "class": "someclass",
+                        "style": "text-align : center;"
+                    }
                 })
-            ], IndexController.prototype, "julian", null);
-            __decorate([
-                View({
-                    "elements": Selec2
-                })
-            ], IndexController.prototype, "julian2", null);
+            ], IndexController.prototype, "container", null);
             exports_1("IndexController", IndexController);
         }
     };

@@ -1,4 +1,5 @@
 import { Controller } from "Mvc/Controller";
+import { SelectExample } from "../Views/SelectExample.js";
 
 export class Selec
 {
@@ -24,22 +25,16 @@ export class IndexController extends Controller
     }
 
     @View({
-        "elements" : Selec
+        "elements"   : SelectExample,
+        "initialize" : {
+            "class"  : "someclass",
+            "style"  : "text-align : center;"
+        } 
     })
-    public julian(ViewModel)
+    public container(ViewModel)
     {
         new ViewModel({
             "data" : "mas data"
-        });
-    }
-
-    @View({
-        "elements" : Selec2
-    })
-    public julian2(ViewModel)
-    {
-        new ViewModel({
-            "data2" : "mas data222"
         });
     }
 }
