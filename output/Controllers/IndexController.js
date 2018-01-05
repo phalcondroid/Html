@@ -7,7 +7,7 @@ System.register(["Mvc/Controller", "../Views/SelectExample.js"], function (expor
         return c > 3 && r && Object.defineProperty(target, key, r), r;
     };
     var __moduleName = context_1 && context_1.id;
-    var Controller_1, SelectExample_js_1, Selec, Selec2, IndexController;
+    var Controller_1, SelectExample_js_1, IndexController;
     return {
         setters: [
             function (Controller_1_1) {
@@ -18,25 +18,13 @@ System.register(["Mvc/Controller", "../Views/SelectExample.js"], function (expor
             }
         ],
         execute: function () {
-            Selec = class Selec {
-                constructor() {
-                    console.log("buena los selecs");
-                }
-            };
-            exports_1("Selec", Selec);
-            Selec2 = class Selec2 {
-                constructor() {
-                    console.log("buena los selecs");
-                }
-            };
-            exports_1("Selec2", Selec2);
             IndexController = class IndexController extends Controller_1.Controller {
                 initialize() {
                     console.log("initialize controller");
                 }
-                container(ViewModel) {
-                    new ViewModel({
-                        "data": "mas data"
+                container(viewModel) {
+                    viewModel.set({
+                        meessage: "Something!"
                     });
                 }
             };

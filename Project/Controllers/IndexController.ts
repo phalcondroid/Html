@@ -1,21 +1,6 @@
+
 import { Controller } from "Mvc/Controller";
 import { SelectExample } from "../Views/SelectExample.js";
-
-export class Selec
-{
-    constructor()
-    {
-        console.log("buena los selecs");
-    }
-}
-
-export class Selec2
-{
-    constructor()
-    {
-        console.log("buena los selecs");
-    }
-}
 
 export class IndexController extends Controller
 {
@@ -31,10 +16,10 @@ export class IndexController extends Controller
             "style"  : "text-align : center;"
         } 
     })
-    public container(ViewModel)
+    public container(viewModel)
     {
-        new ViewModel({
-            "data" : "mas data"
+        viewModel.set({
+            meessage : "Something!"
         });
     }
 }

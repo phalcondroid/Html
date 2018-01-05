@@ -1879,46 +1879,18 @@ System.register("Mvc/Model/Deny", [], function (exports_44, context_44) {
         }
     };
 });
-System.register("Mvc/View/ViewModel", [], function (exports_45, context_45) {
+System.register("Mvc/View/Dom/ElementInterface", [], function (exports_45, context_45) {
     "use strict";
     var __moduleName = context_45 && context_45.id;
-    var ViewModel;
     return {
         setters: [],
         execute: function () {
-            ViewModel = class ViewModel {
-                constructor(data) {
-                    this.data = {};
-                    this.data = data;
-                    console.log(data, ViewModel.getElements());
-                }
-                static setElements(views) {
-                    ViewModel.views = views;
-                }
-                static getElements() {
-                    return ViewModel.views;
-                }
-                get(key) {
-                    this.data[key];
-                }
-            };
-            ViewModel.views = [];
-            exports_45("ViewModel", ViewModel);
         }
     };
 });
-System.register("Mvc/View/Dom/ElementInterface", [], function (exports_46, context_46) {
+System.register("Mvc/View/Dom/CssManager", [], function (exports_46, context_46) {
     "use strict";
     var __moduleName = context_46 && context_46.id;
-    return {
-        setters: [],
-        execute: function () {
-        }
-    };
-});
-System.register("Mvc/View/Dom/CssManager", [], function (exports_47, context_47) {
-    "use strict";
-    var __moduleName = context_47 && context_47.id;
     var CssManager;
     return {
         setters: [],
@@ -2041,13 +2013,13 @@ System.register("Mvc/View/Dom/CssManager", [], function (exports_47, context_47)
                     return this;
                 }
             };
-            exports_47("CssManager", CssManager);
+            exports_46("CssManager", CssManager);
         }
     };
 });
-System.register("Mvc/View/Dom/EventManager", [], function (exports_48, context_48) {
+System.register("Mvc/View/Dom/EventManager", [], function (exports_47, context_47) {
     "use strict";
-    var __moduleName = context_48 && context_48.id;
+    var __moduleName = context_47 && context_47.id;
     var EventManager;
     return {
         setters: [],
@@ -2147,617 +2119,13 @@ System.register("Mvc/View/Dom/EventManager", [], function (exports_48, context_4
                     return this;
                 }
             };
-            exports_48("EventManager", EventManager);
+            exports_47("EventManager", EventManager);
         }
     };
 });
-System.register("Mvc/View/Dom/ParentManager", ["Mvc/View/Adapter/ElementAdapter"], function (exports_49, context_49) {
+System.register("Mvc/View/Elements/I", ["Di/Service", "Mvc/View/Wrappers/HtmlElement"], function (exports_48, context_48) {
     "use strict";
-    var __moduleName = context_49 && context_49.id;
-    var ElementAdapter_1, ParentManager;
-    return {
-        setters: [
-            function (ElementAdapter_1_1) {
-                ElementAdapter_1 = ElementAdapter_1_1;
-            }
-        ],
-        execute: function () {
-            ParentManager = class ParentManager {
-                constructor() {
-                }
-                getParent() {
-                    let parent = this.element.parentElement;
-                    if (parent.nodeType == 1) {
-                        let adapter = new ElementAdapter_1.ElementAdapter(parent);
-                        let tagObject = adapter.get();
-                        return tagObject;
-                    }
-                    return false;
-                }
-                getSiblings() {
-                    let siblings = this.getParent().getChilds();
-                    if (siblings.length > 0) {
-                        let aux = new Array;
-                        for (let item of siblings) {
-                            if (item.getElement() != this.getElement()) {
-                                aux.push(item);
-                            }
-                        }
-                        return aux;
-                    }
-                    return false;
-                }
-                getChilds() {
-                    let childNodes = this.element.childNodes;
-                    let childs = new Array();
-                    for (let key in childNodes) {
-                        if (childNodes[key].nodeType == 1) {
-                            let adapter = new ElementAdapter_1.ElementAdapter(childNodes[key]);
-                            let tagObject = adapter.get();
-                            childs.push(tagObject);
-                        }
-                    }
-                    return childs;
-                }
-                /**
-                 *
-                 */
-                setElement(element) {
-                    this.element = element;
-                    return this;
-                }
-                /**
-                 *
-                 */
-                getElement() {
-                    return this.element;
-                }
-            };
-            exports_49("ParentManager", ParentManager);
-        }
-    };
-});
-System.register("Mvc/View/Dom/ElementManager", ["Mvc/View/Adapter/ElementAdapter"], function (exports_50, context_50) {
-    "use strict";
-    var __moduleName = context_50 && context_50.id;
-    var ElementAdapter_2, ElementManager;
-    return {
-        setters: [
-            function (ElementAdapter_2_1) {
-                ElementAdapter_2 = ElementAdapter_2_1;
-            }
-        ],
-        execute: function () {
-            /**
-             *
-             */
-            ElementManager = class ElementManager {
-                /**
-                 *
-                 * @param element
-                 */
-                constructor() {
-                }
-                /**
-                 *
-                 * @param element
-                 */
-                setElement(element) {
-                    this.element = element;
-                }
-                /**
-                 * Get document element
-                 * @return {document} element
-                 */
-                getElement() {
-                    return this.element;
-                }
-                /**
-                 *
-                 * @return
-                 */
-                getClassName() {
-                    let funcNameRegex = /function (.{1,})\(/;
-                    let results = (funcNameRegex).exec(this["constructor"].toString());
-                    return (results && results.length > 1) ? results[1] : "";
-                }
-                /**
-                 * Set id attribute
-                 * @param {String} id
-                 * @return this
-                 */
-                setId(id) {
-                    this.attr("id", id);
-                    return this;
-                }
-                /**
-                 * Get id attribute
-                 * @return {String}
-                 */
-                getId() {
-                    return this.attr("id");
-                }
-                /**
-                 * Set required attribute
-                 * å
-                 */
-                setRequired(req) {
-                    this.element.required = req;
-                    return this;
-                }
-                /**
-                 * Get required attribute
-                 * @return {Boolean}
-                 */
-                getRequired() {
-                    return this.element.required;
-                }
-                /**
-                 *
-                 * @param append
-                 */
-                checkAppendValue(append) {
-                    switch (typeof append) {
-                        case "string":
-                            this.element.appendChild(document.createTextNode(append));
-                            break;
-                        case "number":
-                            this.element.appendChild(document.createTextNode(append.toString()));
-                            break;
-                        case "object":
-                            if (typeof append.getElement() != "undefined") {
-                                this.verifyElement(append.getElement());
-                            }
-                            else {
-                                this.verifyElement(append);
-                            }
-                            break;
-                        default:
-                            break;
-                    }
-                }
-                /**
-                 *
-                 * @param append
-                 * @param type
-                 */
-                verifyElement(append, type = "append") {
-                    if (this.element instanceof HTMLCollection) {
-                        for (let key in this.element) {
-                            if (typeof this.element[key].nodeType != "undefined") {
-                                if (this.element[key].nodeType == 1) {
-                                    this.element[key].appendChild(append);
-                                }
-                            }
-                        }
-                    }
-                    else {
-                        this.element.appendChild(append);
-                    }
-                }
-                /**
-                 *
-                 * @param append
-                 */
-                append(append) {
-                    if (Array.isArray(append) || (append instanceof HTMLCollection)) {
-                        for (let key in append) {
-                            this.checkAppendValue(append[key]);
-                        }
-                    }
-                    else {
-                        this.checkAppendValue(append);
-                    }
-                    return this;
-                }
-                /**
-                 * Set class
-                 * @param  { String } attrClass
-                 * @return this
-                 */
-                class(attrClass) {
-                    this.element.setAttribute("class", attrClass);
-                    return this;
-                }
-                /**
-                 *
-                 * @param  { String } cssClass
-                 * @return
-                 */
-                addClass(attrClass) {
-                    let strClass = this.element.getAttribute("class");
-                    strClass += " " + attrClass;
-                    this.element.setAttribute("class", strClass);
-                    return this;
-                }
-                /**
-                 *
-                 * @param  { String } attribute
-                 * @return { this | attribute}
-                 */
-                attr(attr, value = false) {
-                    if (typeof attr == "object" && value == false) {
-                        for (let key in attr) {
-                            this.element.setAttribute(key, attr[key]);
-                        }
-                    }
-                    else if (typeof attr == "string" && value != false) {
-                        this.element.setAttribute(attr, value);
-                    }
-                    else if (typeof attr == "string" && value == false) {
-                        return this.element.getAttribute(attr);
-                    }
-                    return this;
-                }
-                /**
-                 *
-                 * @param {String} attribute
-                 */
-                removeAttr(attr) {
-                    this.element.removeAttribute(attr);
-                    return this;
-                }
-                /**
-                 *
-                 * @param
-                 * @return
-                 */
-                html(html = null) {
-                    if (html != null) {
-                        this.removeChildNodes();
-                        this.append(html);
-                        return this;
-                    }
-                    else {
-                        return this.element.innerHTML;
-                    }
-                }
-                /**
-                 *
-                 * @param html
-                 */
-                setHtml(html = null) {
-                    if (html = null) {
-                        this.removeChildNodes();
-                        this.append(html);
-                        return this;
-                    }
-                    else {
-                        return this.element.innerHTML;
-                    }
-                }
-                /**
-                 *
-                 */
-                removeChildNodes() {
-                    if (this.element instanceof HTMLCollection) {
-                        for (let key in this.element) {
-                            this.removeChilds(this.element[key], this.element[key].childNodes);
-                        }
-                    }
-                    else {
-                        this.removeChilds(this.element, this.element.childNodes);
-                    }
-                }
-                /**
-                 *
-                 */
-                removeChilds(element, childs) {
-                    while (element.firstChild) {
-                        element.removeChild(element.firstChild);
-                    }
-                }
-                /**
-                 *
-                 * @param  {any = null}        val [description]
-                 * @return {[type]}   [description]
-                 */
-                val(val = false) {
-                    if (val || typeof val == "string") {
-                        this.element.value = val;
-                        this.attr("value", val);
-                        return this;
-                    }
-                    else {
-                        return this.element.value;
-                    }
-                }
-                /**
-                 *
-                 * @param  {any = null}        val [description]
-                 * @return {[type]}   [description]
-                 */
-                getValue(val = false) {
-                    if (val || typeof val == "string") {
-                        this.element.value = val;
-                        this.attr("value", val);
-                        return this;
-                    }
-                    else {
-                        return this.element.value;
-                    }
-                }
-                /**
-                 *
-                 */
-                valAsInt() {
-                    return parseInt(this.val());
-                }
-                /**
-                 *
-                 * @param  {any = null}        text [description]
-                 * @return {[type]}   [description]
-                 */
-                text(text = false) {
-                    if (text) {
-                        this.element.innerHtml = text;
-                        return this;
-                    }
-                    else {
-                        return this.element.innerHtml;
-                    }
-                }
-                /**
-                 *
-                 */
-                empty() {
-                    this.removeChildNodes();
-                    return this;
-                }
-                /**
-                 *
-                 * @param element
-                 */
-                remove(element = false) {
-                    if (element) {
-                        this.getElement().removeChild(element);
-                    }
-                    else {
-                        this.getElement().parentElement.removeChild(this.getElement());
-                    }
-                }
-                /**
-                 *
-                 */
-                getAsObject() {
-                    let childs = this.element.childNodes;
-                    let obj = new Array();
-                    if (childs instanceof NodeList) {
-                        for (let key in childs) {
-                            if (typeof childs[key].nodeType != "undefined") {
-                                switch (childs[key].nodeType) {
-                                    case Node.ELEMENT_NODE:
-                                        let adapter = new ElementAdapter_2.ElementAdapter(childs[key]);
-                                        let auxElement = adapter.get();
-                                        let finalObj = {};
-                                        let auxObject = auxElement.getAsObject();
-                                        finalObj[auxElement.getClassName().toLowerCase()] = auxObject;
-                                        if (auxObject.length > 0) {
-                                            obj.push(finalObj);
-                                        }
-                                        break;
-                                    case Node.TEXT_NODE:
-                                        obj.push(childs[key].nodeValue);
-                                        break;
-                                }
-                            }
-                        }
-                    }
-                    return obj;
-                }
-                /**
-                 *
-                 */
-                getAsJson() {
-                    let objects = this.getAsObject();
-                    return JSON.stringify(objects);
-                }
-            };
-            exports_50("ElementManager", ElementManager);
-        }
-    };
-});
-System.register("Mvc/View/Wrappers/HtmlElement", [], function (exports_51, context_51) {
-    "use strict";
-    var __moduleName = context_51 && context_51.id;
-    var HtmlElement;
-    return {
-        setters: [],
-        execute: function () {
-            HtmlElement = class HtmlElement {
-                /**
-                 *
-                 * @param tagName
-                 */
-                constructor() {
-                    this.CSS_MANAGER = "Chronos.Dom.CssManager";
-                    this.PARENT_MANAGER = "Chronos.Dom.DomManager";
-                    this.ELEMENT_MANAGER = "Chronos.Dom.ElementManager";
-                    let localDecorator = new Proxy(this, this.getValidator());
-                    return localDecorator;
-                }
-                initialize(args = {}) {
-                }
-                /**
-                 *
-                 */
-                setElement(element) {
-                    this.element = element;
-                    return this;
-                }
-                /**
-                 *
-                 */
-                getElement() {
-                    return this.element;
-                }
-                /**
-                 *
-                 */
-                getCss() {
-                    let css = this.getDi().get(this.CSS_MANAGER);
-                    css.setElement(this.getElement());
-                    return css;
-                }
-                /**
-                 *
-                 */
-                getElementManager() {
-                    let em = this.getDi().get(this.ELEMENT_MANAGER);
-                    em.setElement(this.getElement());
-                    return em;
-                }
-                /**
-                 *
-                 */
-                getParentManager() {
-                    let pm = this.getDi().get(this.PARENT_MANAGER);
-                    pm.setElement(this.getElement());
-                    return pm;
-                }
-                getEventManager() {
-                    let em = this.getDi().get("eventManager");
-                    em.setElement(this.getElement());
-                    return em;
-                }
-                /**
-                 *
-                 * @param tagName
-                 */
-                create(tagName) {
-                    this.element = document.createElement(tagName);
-                    return this;
-                }
-                /**
-                 * [getClassName description]
-                 * @return {[type]} [description]
-                 */
-                getClassName() {
-                    let funcNameRegex = /function (.{1,})\(/;
-                    let results = (funcNameRegex).exec(this["constructor"].toString());
-                    return (results && results.length > 1) ? results[1] : "";
-                }
-                /**
-                 *
-                 */
-                getChecksum() {
-                    let str = this.getClassName() + JSON.stringify(this);
-                    return window.btoa(encodeURIComponent(str));
-                }
-                /**
-                 *
-                 */
-                getValidator() {
-                    let validator = {
-                        get: function get(obj, prop) {
-                            switch (prop) {
-                                case "append":
-                                    return this.getElementManager().append;
-                                case "attr":
-                                    return this.getElementManager().attr;
-                                case "setAttribute":
-                                    return this.getElementManager().setAttribute;
-                                case "removeAttribute":
-                                    return this.getElementManager().removeAttribute;
-                                case "class":
-                                    return this.getElementManager().class;
-                                case "addClass":
-                                    return this.getElementManager().addClass;
-                                case "removeClass":
-                                    return this.getElementManager().removeClass;
-                                case "setId":
-                                    return this.getElementManager().setId;
-                                case "getId":
-                                    return this.getElementManager().getId;
-                                case "setRequired":
-                                    return this.getElementManager().setRequired;
-                                case "getRequired":
-                                    return this.getElementManager().getRequired;
-                                case "html":
-                                    return this.getElementManager().html;
-                                case "setHtml":
-                                    return this.getElementManager().setHtml;
-                                case "setValue":
-                                    return this.getElementManager().setValue;
-                                case "val":
-                                    return this.getElementManager().val;
-                                case "getValue":
-                                    return this.getElementManager().getValue;
-                                case "valAsInt":
-                                    return this.getElementManager().valAsInt;
-                                case "text":
-                                    return this.getElementManager().text;
-                                case "empty":
-                                    return this.getElementManager().empty;
-                                case "remove":
-                                    return this.getElementManager().remove;
-                                case "getAsObject":
-                                    return this.getElementManager().getAsObject;
-                                case "getAsJson":
-                                    return this.getElementManager().getAsJson;
-                                case "getSibilings":
-                                    return this.getParentManager().getSiblings;
-                                case "getParent":
-                                    return this.getParentManager().getParent;
-                                case "getChilds":
-                                    return this.getParentManager().getChilds;
-                                case "click":
-                                    return this.getParentManager().click;
-                                case "doubleClick":
-                                    return this.getParentManager().doubleClick;
-                                case "change":
-                                    return this.getParentManager().change;
-                                case "keypress":
-                                    return this.getParentManager().keypress;
-                                case "keydown":
-                                    return this.getParentManager().keydown;
-                                case "keyup":
-                                    return this.getParentManager().keyup;
-                                case "paste":
-                                    return this.getParentManager().paste;
-                                case "blur":
-                                    return this.getParentManager().blur;
-                                case "focus":
-                                    return this.getParentManager().focus;
-                                case "submit":
-                                    return this.getParentManager().submit;
-                                case "show":
-                                    return this.getCss().show;
-                                case "hide":
-                                    return this.getCss().hide;
-                                case "css":
-                                    return this.getCss().css;
-                                case "setStyle":
-                                    return this.getCss().setStyle;
-                                default:
-                                    return obj[name];
-                            }
-                        }
-                    };
-                    return validator;
-                }
-                /**
-                 *
-                 * @param di
-                 */
-                setDi(di) {
-                    this.di = di;
-                    return this;
-                }
-                /**
-                 *
-                 */
-                getDi() {
-                    return this.di;
-                }
-            };
-            exports_51("HtmlElement", HtmlElement);
-        }
-    };
-});
-System.register("Mvc/View/Elements/I", ["Di/Service", "Mvc/View/Wrappers/HtmlElement"], function (exports_52, context_52) {
-    "use strict";
-    var __moduleName = context_52 && context_52.id;
+    var __moduleName = context_48 && context_48.id;
     var Service_3, HtmlElement_1, I;
     return {
         setters: [
@@ -2784,13 +2152,13 @@ System.register("Mvc/View/Elements/I", ["Di/Service", "Mvc/View/Wrappers/HtmlEle
                     this.initialize(args);
                 }
             };
-            exports_52("I", I);
+            exports_48("I", I);
         }
     };
 });
-System.register("Mvc/View/Elements/A", ["Mvc/View/Elements/I", "Di/Service", "Mvc/View/Wrappers/HtmlElement"], function (exports_53, context_53) {
+System.register("Mvc/View/Elements/A", ["Mvc/View/Elements/I", "Di/Service", "Mvc/View/Wrappers/HtmlElement"], function (exports_49, context_49) {
     "use strict";
-    var __moduleName = context_53 && context_53.id;
+    var __moduleName = context_49 && context_49.id;
     var I_1, Service_4, HtmlElement_2, A;
     return {
         setters: [
@@ -2838,13 +2206,13 @@ System.register("Mvc/View/Elements/A", ["Mvc/View/Elements/I", "Di/Service", "Mv
                     return this;
                 }
             };
-            exports_53("A", A);
+            exports_49("A", A);
         }
     };
 });
-System.register("Mvc/View/Elements/Abbr", ["Di/Service", "Mvc/View/Wrappers/HtmlElement"], function (exports_54, context_54) {
+System.register("Mvc/View/Elements/Abbr", ["Di/Service", "Mvc/View/Wrappers/HtmlElement"], function (exports_50, context_50) {
     "use strict";
-    var __moduleName = context_54 && context_54.id;
+    var __moduleName = context_50 && context_50.id;
     var Service_5, HtmlElement_3, Abbr;
     return {
         setters: [
@@ -2867,13 +2235,13 @@ System.register("Mvc/View/Elements/Abbr", ["Di/Service", "Mvc/View/Wrappers/Html
                     this.initialize(args);
                 }
             };
-            exports_54("Abbr", Abbr);
+            exports_50("Abbr", Abbr);
         }
     };
 });
-System.register("Mvc/View/Elements/Address", ["Mvc/View/Wrappers/HtmlElement", "Di/Service"], function (exports_55, context_55) {
+System.register("Mvc/View/Elements/Address", ["Mvc/View/Wrappers/HtmlElement", "Di/Service"], function (exports_51, context_51) {
     "use strict";
-    var __moduleName = context_55 && context_55.id;
+    var __moduleName = context_51 && context_51.id;
     var HtmlElement_4, Service_6, Address;
     return {
         setters: [
@@ -2896,13 +2264,13 @@ System.register("Mvc/View/Elements/Address", ["Mvc/View/Wrappers/HtmlElement", "
                     this.initialize(args);
                 }
             };
-            exports_55("Address", Address);
+            exports_51("Address", Address);
         }
     };
 });
-System.register("Mvc/View/Elements/Area", ["Mvc/View/Wrappers/HtmlElement", "Di/Service"], function (exports_56, context_56) {
+System.register("Mvc/View/Elements/Area", ["Mvc/View/Wrappers/HtmlElement", "Di/Service"], function (exports_52, context_52) {
     "use strict";
-    var __moduleName = context_56 && context_56.id;
+    var __moduleName = context_52 && context_52.id;
     var HtmlElement_5, Service_7, Area;
     return {
         setters: [
@@ -2925,13 +2293,13 @@ System.register("Mvc/View/Elements/Area", ["Mvc/View/Wrappers/HtmlElement", "Di/
                     this.initialize(args);
                 }
             };
-            exports_56("Area", Area);
+            exports_52("Area", Area);
         }
     };
 });
-System.register("Mvc/View/Elements/Article", ["Mvc/View/Wrappers/HtmlElement", "Di/Service"], function (exports_57, context_57) {
+System.register("Mvc/View/Elements/Article", ["Mvc/View/Wrappers/HtmlElement", "Di/Service"], function (exports_53, context_53) {
     "use strict";
-    var __moduleName = context_57 && context_57.id;
+    var __moduleName = context_53 && context_53.id;
     var HtmlElement_6, Service_8, Article;
     return {
         setters: [
@@ -2958,13 +2326,13 @@ System.register("Mvc/View/Elements/Article", ["Mvc/View/Wrappers/HtmlElement", "
                     this.initialize(args);
                 }
             };
-            exports_57("Article", Article);
+            exports_53("Article", Article);
         }
     };
 });
-System.register("Mvc/View/Elements/Aside", ["Mvc/View/Wrappers/HtmlElement", "Di/Service"], function (exports_58, context_58) {
+System.register("Mvc/View/Elements/Aside", ["Mvc/View/Wrappers/HtmlElement", "Di/Service"], function (exports_54, context_54) {
     "use strict";
-    var __moduleName = context_58 && context_58.id;
+    var __moduleName = context_54 && context_54.id;
     var HtmlElement_7, Service_9, Aside;
     return {
         setters: [
@@ -2991,13 +2359,13 @@ System.register("Mvc/View/Elements/Aside", ["Mvc/View/Wrappers/HtmlElement", "Di
                     this.initialize(args);
                 }
             };
-            exports_58("Aside", Aside);
+            exports_54("Aside", Aside);
         }
     };
 });
-System.register("Mvc/View/Elements/B", ["Mvc/View/Wrappers/HtmlElement"], function (exports_59, context_59) {
+System.register("Mvc/View/Elements/B", ["Mvc/View/Wrappers/HtmlElement"], function (exports_55, context_55) {
     "use strict";
-    var __moduleName = context_59 && context_59.id;
+    var __moduleName = context_55 && context_55.id;
     var HtmlElement_8, B;
     return {
         setters: [
@@ -3019,13 +2387,13 @@ System.register("Mvc/View/Elements/B", ["Mvc/View/Wrappers/HtmlElement"], functi
                     this.setElement(document.createElement("B"));
                 }
             };
-            exports_59("B", B);
+            exports_55("B", B);
         }
     };
 });
-System.register("Mvc/View/Elements/Base", ["Mvc/View/Wrappers/HtmlElement", "Di/Service"], function (exports_60, context_60) {
+System.register("Mvc/View/Elements/Base", ["Mvc/View/Wrappers/HtmlElement", "Di/Service"], function (exports_56, context_56) {
     "use strict";
-    var __moduleName = context_60 && context_60.id;
+    var __moduleName = context_56 && context_56.id;
     var HtmlElement_9, Service_10, Base;
     return {
         setters: [
@@ -3052,13 +2420,13 @@ System.register("Mvc/View/Elements/Base", ["Mvc/View/Wrappers/HtmlElement", "Di/
                     this.initialize(args);
                 }
             };
-            exports_60("Base", Base);
+            exports_56("Base", Base);
         }
     };
 });
-System.register("Mvc/View/Elements/Bdi", ["Mvc/View/Wrappers/HtmlElement", "Di/Service"], function (exports_61, context_61) {
+System.register("Mvc/View/Elements/Bdi", ["Mvc/View/Wrappers/HtmlElement", "Di/Service"], function (exports_57, context_57) {
     "use strict";
-    var __moduleName = context_61 && context_61.id;
+    var __moduleName = context_57 && context_57.id;
     var HtmlElement_10, Service_11, Bdi;
     return {
         setters: [
@@ -3085,13 +2453,13 @@ System.register("Mvc/View/Elements/Bdi", ["Mvc/View/Wrappers/HtmlElement", "Di/S
                     this.initialize(args);
                 }
             };
-            exports_61("Bdi", Bdi);
+            exports_57("Bdi", Bdi);
         }
     };
 });
-System.register("Mvc/View/Elements/Bdo", ["Di/Service", "Mvc/View/Wrappers/HtmlElement"], function (exports_62, context_62) {
+System.register("Mvc/View/Elements/Bdo", ["Di/Service", "Mvc/View/Wrappers/HtmlElement"], function (exports_58, context_58) {
     "use strict";
-    var __moduleName = context_62 && context_62.id;
+    var __moduleName = context_58 && context_58.id;
     var Service_12, HtmlElement_11, Bdo;
     return {
         setters: [
@@ -3118,13 +2486,13 @@ System.register("Mvc/View/Elements/Bdo", ["Di/Service", "Mvc/View/Wrappers/HtmlE
                     this.initialize(args);
                 }
             };
-            exports_62("Bdo", Bdo);
+            exports_58("Bdo", Bdo);
         }
     };
 });
-System.register("Mvc/View/Elements/Blockquote", ["Mvc/View/Wrappers/HtmlElement", "Di/Service"], function (exports_63, context_63) {
+System.register("Mvc/View/Elements/Blockquote", ["Mvc/View/Wrappers/HtmlElement", "Di/Service"], function (exports_59, context_59) {
     "use strict";
-    var __moduleName = context_63 && context_63.id;
+    var __moduleName = context_59 && context_59.id;
     var HtmlElement_12, Service_13, Blockquote;
     return {
         setters: [
@@ -3151,13 +2519,13 @@ System.register("Mvc/View/Elements/Blockquote", ["Mvc/View/Wrappers/HtmlElement"
                     this.initialize(args);
                 }
             };
-            exports_63("Blockquote", Blockquote);
+            exports_59("Blockquote", Blockquote);
         }
     };
 });
-System.register("Mvc/View/Elements/Body", ["Mvc/View/Wrappers/HtmlElement", "Di/Service"], function (exports_64, context_64) {
+System.register("Mvc/View/Elements/Body", ["Mvc/View/Wrappers/HtmlElement", "Di/Service"], function (exports_60, context_60) {
     "use strict";
-    var __moduleName = context_64 && context_64.id;
+    var __moduleName = context_60 && context_60.id;
     var HtmlElement_13, Service_14, Body;
     return {
         setters: [
@@ -3181,13 +2549,13 @@ System.register("Mvc/View/Elements/Body", ["Mvc/View/Wrappers/HtmlElement", "Di/
                     this.initialize(args);
                 }
             };
-            exports_64("Body", Body);
+            exports_60("Body", Body);
         }
     };
 });
-System.register("Mvc/View/Elements/Br", ["Di/Service", "Mvc/View/Wrappers/HtmlElement"], function (exports_65, context_65) {
+System.register("Mvc/View/Elements/Br", ["Di/Service", "Mvc/View/Wrappers/HtmlElement"], function (exports_61, context_61) {
     "use strict";
-    var __moduleName = context_65 && context_65.id;
+    var __moduleName = context_61 && context_61.id;
     var Service_15, HtmlElement_14, Br;
     return {
         setters: [
@@ -3214,13 +2582,13 @@ System.register("Mvc/View/Elements/Br", ["Di/Service", "Mvc/View/Wrappers/HtmlEl
                     this.initialize(args);
                 }
             };
-            exports_65("Br", Br);
+            exports_61("Br", Br);
         }
     };
 });
-System.register("Mvc/View/Elements/Button", ["Di/Service", "Mvc/View/Wrappers/HtmlElement", "Mvc/View/Elements/I"], function (exports_66, context_66) {
+System.register("Mvc/View/Elements/Button", ["Di/Service", "Mvc/View/Wrappers/HtmlElement", "Mvc/View/Elements/I"], function (exports_62, context_62) {
     "use strict";
-    var __moduleName = context_66 && context_66.id;
+    var __moduleName = context_62 && context_62.id;
     var Service_16, HtmlElement_15, I_2, Button;
     return {
         setters: [
@@ -3316,13 +2684,13 @@ System.register("Mvc/View/Elements/Button", ["Di/Service", "Mvc/View/Wrappers/Ht
                     return this;
                 }
             };
-            exports_66("Button", Button);
+            exports_62("Button", Button);
         }
     };
 });
-System.register("Mvc/View/Elements/Canvas", ["Di/Service", "Mvc/View/Wrappers/HtmlElement"], function (exports_67, context_67) {
+System.register("Mvc/View/Elements/Canvas", ["Di/Service", "Mvc/View/Wrappers/HtmlElement"], function (exports_63, context_63) {
     "use strict";
-    var __moduleName = context_67 && context_67.id;
+    var __moduleName = context_63 && context_63.id;
     var Service_17, HtmlElement_16, Canvas;
     return {
         setters: [
@@ -3349,13 +2717,13 @@ System.register("Mvc/View/Elements/Canvas", ["Di/Service", "Mvc/View/Wrappers/Ht
                     this.initialize(args);
                 }
             };
-            exports_67("Canvas", Canvas);
+            exports_63("Canvas", Canvas);
         }
     };
 });
-System.register("Mvc/View/Elements/Caption", ["Di/Service", "Mvc/View/Wrappers/HtmlElement"], function (exports_68, context_68) {
+System.register("Mvc/View/Elements/Caption", ["Di/Service", "Mvc/View/Wrappers/HtmlElement"], function (exports_64, context_64) {
     "use strict";
-    var __moduleName = context_68 && context_68.id;
+    var __moduleName = context_64 && context_64.id;
     var Service_18, HtmlElement_17, Caption;
     return {
         setters: [
@@ -3382,13 +2750,13 @@ System.register("Mvc/View/Elements/Caption", ["Di/Service", "Mvc/View/Wrappers/H
                     this.initialize(args);
                 }
             };
-            exports_68("Caption", Caption);
+            exports_64("Caption", Caption);
         }
     };
 });
-System.register("Mvc/View/Elements/Cite", ["Di/Service", "Mvc/View/Wrappers/HtmlElement"], function (exports_69, context_69) {
+System.register("Mvc/View/Elements/Cite", ["Di/Service", "Mvc/View/Wrappers/HtmlElement"], function (exports_65, context_65) {
     "use strict";
-    var __moduleName = context_69 && context_69.id;
+    var __moduleName = context_65 && context_65.id;
     var Service_19, HtmlElement_18, Cite;
     return {
         setters: [
@@ -3415,13 +2783,13 @@ System.register("Mvc/View/Elements/Cite", ["Di/Service", "Mvc/View/Wrappers/Html
                     this.initialize(args);
                 }
             };
-            exports_69("Cite", Cite);
+            exports_65("Cite", Cite);
         }
     };
 });
-System.register("Mvc/View/Elements/Code", ["Di/Service", "Mvc/View/Wrappers/HtmlElement"], function (exports_70, context_70) {
+System.register("Mvc/View/Elements/Code", ["Di/Service", "Mvc/View/Wrappers/HtmlElement"], function (exports_66, context_66) {
     "use strict";
-    var __moduleName = context_70 && context_70.id;
+    var __moduleName = context_66 && context_66.id;
     var Service_20, HtmlElement_19, Code;
     return {
         setters: [
@@ -3448,13 +2816,13 @@ System.register("Mvc/View/Elements/Code", ["Di/Service", "Mvc/View/Wrappers/Html
                     this.initialize(args);
                 }
             };
-            exports_70("Code", Code);
+            exports_66("Code", Code);
         }
     };
 });
-System.register("Mvc/View/Elements/Col", ["Di/Service", "Mvc/View/Wrappers/HtmlElement"], function (exports_71, context_71) {
+System.register("Mvc/View/Elements/Col", ["Di/Service", "Mvc/View/Wrappers/HtmlElement"], function (exports_67, context_67) {
     "use strict";
-    var __moduleName = context_71 && context_71.id;
+    var __moduleName = context_67 && context_67.id;
     var Service_21, HtmlElement_20, Col;
     return {
         setters: [
@@ -3481,13 +2849,13 @@ System.register("Mvc/View/Elements/Col", ["Di/Service", "Mvc/View/Wrappers/HtmlE
                     this.initialize(args);
                 }
             };
-            exports_71("Col", Col);
+            exports_67("Col", Col);
         }
     };
 });
-System.register("Mvc/View/Elements/ColGroup", ["Di/Service", "Mvc/View/Wrappers/HtmlElement"], function (exports_72, context_72) {
+System.register("Mvc/View/Elements/ColGroup", ["Di/Service", "Mvc/View/Wrappers/HtmlElement"], function (exports_68, context_68) {
     "use strict";
-    var __moduleName = context_72 && context_72.id;
+    var __moduleName = context_68 && context_68.id;
     var Service_22, HtmlElement_21, ColGroup;
     return {
         setters: [
@@ -3514,13 +2882,13 @@ System.register("Mvc/View/Elements/ColGroup", ["Di/Service", "Mvc/View/Wrappers/
                     this.initialize(args);
                 }
             };
-            exports_72("ColGroup", ColGroup);
+            exports_68("ColGroup", ColGroup);
         }
     };
 });
-System.register("Mvc/View/Elements/Datalist", ["Di/Service", "Mvc/View/Wrappers/HtmlElement"], function (exports_73, context_73) {
+System.register("Mvc/View/Elements/Datalist", ["Di/Service", "Mvc/View/Wrappers/HtmlElement"], function (exports_69, context_69) {
     "use strict";
-    var __moduleName = context_73 && context_73.id;
+    var __moduleName = context_69 && context_69.id;
     var Service_23, HtmlElement_22, Datalist;
     return {
         setters: [
@@ -3547,13 +2915,13 @@ System.register("Mvc/View/Elements/Datalist", ["Di/Service", "Mvc/View/Wrappers/
                     this.initialize(args);
                 }
             };
-            exports_73("Datalist", Datalist);
+            exports_69("Datalist", Datalist);
         }
     };
 });
-System.register("Mvc/View/Elements/Db", ["Di/Service", "Mvc/View/Wrappers/HtmlElement"], function (exports_74, context_74) {
+System.register("Mvc/View/Elements/Db", ["Di/Service", "Mvc/View/Wrappers/HtmlElement"], function (exports_70, context_70) {
     "use strict";
-    var __moduleName = context_74 && context_74.id;
+    var __moduleName = context_70 && context_70.id;
     var Service_24, HtmlElement_23, Db;
     return {
         setters: [
@@ -3580,13 +2948,13 @@ System.register("Mvc/View/Elements/Db", ["Di/Service", "Mvc/View/Wrappers/HtmlEl
                     this.initialize(args);
                 }
             };
-            exports_74("Db", Db);
+            exports_70("Db", Db);
         }
     };
 });
-System.register("Mvc/View/Elements/Del", ["Di/Service", "Mvc/View/Wrappers/HtmlElement"], function (exports_75, context_75) {
+System.register("Mvc/View/Elements/Del", ["Di/Service", "Mvc/View/Wrappers/HtmlElement"], function (exports_71, context_71) {
     "use strict";
-    var __moduleName = context_75 && context_75.id;
+    var __moduleName = context_71 && context_71.id;
     var Service_25, HtmlElement_24, Del;
     return {
         setters: [
@@ -3613,13 +2981,13 @@ System.register("Mvc/View/Elements/Del", ["Di/Service", "Mvc/View/Wrappers/HtmlE
                     this.initialize(args);
                 }
             };
-            exports_75("Del", Del);
+            exports_71("Del", Del);
         }
     };
 });
-System.register("Mvc/View/Elements/Details", ["Di/Service", "Mvc/View/Wrappers/HtmlElement"], function (exports_76, context_76) {
+System.register("Mvc/View/Elements/Details", ["Di/Service", "Mvc/View/Wrappers/HtmlElement"], function (exports_72, context_72) {
     "use strict";
-    var __moduleName = context_76 && context_76.id;
+    var __moduleName = context_72 && context_72.id;
     var Service_26, HtmlElement_25, Details;
     return {
         setters: [
@@ -3646,13 +3014,13 @@ System.register("Mvc/View/Elements/Details", ["Di/Service", "Mvc/View/Wrappers/H
                     this.initialize(args);
                 }
             };
-            exports_76("Details", Details);
+            exports_72("Details", Details);
         }
     };
 });
-System.register("Mvc/View/Elements/Dfn", ["Di/Service", "Mvc/View/Wrappers/HtmlElement"], function (exports_77, context_77) {
+System.register("Mvc/View/Elements/Dfn", ["Di/Service", "Mvc/View/Wrappers/HtmlElement"], function (exports_73, context_73) {
     "use strict";
-    var __moduleName = context_77 && context_77.id;
+    var __moduleName = context_73 && context_73.id;
     var Service_27, HtmlElement_26, Dfn;
     return {
         setters: [
@@ -3679,13 +3047,13 @@ System.register("Mvc/View/Elements/Dfn", ["Di/Service", "Mvc/View/Wrappers/HtmlE
                     this.initialize(args);
                 }
             };
-            exports_77("Dfn", Dfn);
+            exports_73("Dfn", Dfn);
         }
     };
 });
-System.register("Mvc/View/Elements/Dialog", ["Di/Service", "Mvc/View/Wrappers/HtmlElement"], function (exports_78, context_78) {
+System.register("Mvc/View/Elements/Dialog", ["Di/Service", "Mvc/View/Wrappers/HtmlElement"], function (exports_74, context_74) {
     "use strict";
-    var __moduleName = context_78 && context_78.id;
+    var __moduleName = context_74 && context_74.id;
     var Service_28, HtmlElement_27, Dialog;
     return {
         setters: [
@@ -3712,13 +3080,13 @@ System.register("Mvc/View/Elements/Dialog", ["Di/Service", "Mvc/View/Wrappers/Ht
                     this.initialize(args);
                 }
             };
-            exports_78("Dialog", Dialog);
+            exports_74("Dialog", Dialog);
         }
     };
 });
-System.register("Mvc/View/Elements/Div", ["Di/Service", "Mvc/View/Wrappers/HtmlElement"], function (exports_79, context_79) {
+System.register("Mvc/View/Elements/Div", ["Di/Service", "Mvc/View/Wrappers/HtmlElement"], function (exports_75, context_75) {
     "use strict";
-    var __moduleName = context_79 && context_79.id;
+    var __moduleName = context_75 && context_75.id;
     var Service_29, HtmlElement_28, Div;
     return {
         setters: [
@@ -3745,13 +3113,13 @@ System.register("Mvc/View/Elements/Div", ["Di/Service", "Mvc/View/Wrappers/HtmlE
                     this.initialize(args);
                 }
             };
-            exports_79("Div", Div);
+            exports_75("Div", Div);
         }
     };
 });
-System.register("Mvc/View/Elements/Dl", ["Di/Service", "Mvc/View/Wrappers/HtmlElement"], function (exports_80, context_80) {
+System.register("Mvc/View/Elements/Dl", ["Di/Service", "Mvc/View/Wrappers/HtmlElement"], function (exports_76, context_76) {
     "use strict";
-    var __moduleName = context_80 && context_80.id;
+    var __moduleName = context_76 && context_76.id;
     var Service_30, HtmlElement_29, Dl;
     return {
         setters: [
@@ -3778,13 +3146,13 @@ System.register("Mvc/View/Elements/Dl", ["Di/Service", "Mvc/View/Wrappers/HtmlEl
                     this.initialize(args);
                 }
             };
-            exports_80("Dl", Dl);
+            exports_76("Dl", Dl);
         }
     };
 });
-System.register("Mvc/View/Elements/Dt", ["Di/Service", "Mvc/View/Wrappers/HtmlElement"], function (exports_81, context_81) {
+System.register("Mvc/View/Elements/Dt", ["Di/Service", "Mvc/View/Wrappers/HtmlElement"], function (exports_77, context_77) {
     "use strict";
-    var __moduleName = context_81 && context_81.id;
+    var __moduleName = context_77 && context_77.id;
     var Service_31, HtmlElement_30, Dt;
     return {
         setters: [
@@ -3811,13 +3179,13 @@ System.register("Mvc/View/Elements/Dt", ["Di/Service", "Mvc/View/Wrappers/HtmlEl
                     this.initialize(args);
                 }
             };
-            exports_81("Dt", Dt);
+            exports_77("Dt", Dt);
         }
     };
 });
-System.register("Mvc/View/Elements/Em", ["Di/Service", "Mvc/View/Wrappers/HtmlElement"], function (exports_82, context_82) {
+System.register("Mvc/View/Elements/Em", ["Di/Service", "Mvc/View/Wrappers/HtmlElement"], function (exports_78, context_78) {
     "use strict";
-    var __moduleName = context_82 && context_82.id;
+    var __moduleName = context_78 && context_78.id;
     var Service_32, HtmlElement_31, Em;
     return {
         setters: [
@@ -3844,13 +3212,13 @@ System.register("Mvc/View/Elements/Em", ["Di/Service", "Mvc/View/Wrappers/HtmlEl
                     this.initialize(args);
                 }
             };
-            exports_82("Em", Em);
+            exports_78("Em", Em);
         }
     };
 });
-System.register("Mvc/View/Elements/Embed", ["Di/Service", "Mvc/View/Wrappers/HtmlElement"], function (exports_83, context_83) {
+System.register("Mvc/View/Elements/Embed", ["Di/Service", "Mvc/View/Wrappers/HtmlElement"], function (exports_79, context_79) {
     "use strict";
-    var __moduleName = context_83 && context_83.id;
+    var __moduleName = context_79 && context_79.id;
     var Service_33, HtmlElement_32, Embed;
     return {
         setters: [
@@ -3877,13 +3245,13 @@ System.register("Mvc/View/Elements/Embed", ["Di/Service", "Mvc/View/Wrappers/Htm
                     this.initialize(args);
                 }
             };
-            exports_83("Embed", Embed);
+            exports_79("Embed", Embed);
         }
     };
 });
-System.register("Mvc/View/Elements/Fieldset", ["Di/Service", "Mvc/View/Wrappers/HtmlElement"], function (exports_84, context_84) {
+System.register("Mvc/View/Elements/Fieldset", ["Di/Service", "Mvc/View/Wrappers/HtmlElement"], function (exports_80, context_80) {
     "use strict";
-    var __moduleName = context_84 && context_84.id;
+    var __moduleName = context_80 && context_80.id;
     var Service_34, HtmlElement_33, Fieldset;
     return {
         setters: [
@@ -3910,13 +3278,13 @@ System.register("Mvc/View/Elements/Fieldset", ["Di/Service", "Mvc/View/Wrappers/
                     this.initialize(args);
                 }
             };
-            exports_84("Fieldset", Fieldset);
+            exports_80("Fieldset", Fieldset);
         }
     };
 });
-System.register("Mvc/View/Elements/Figcaption", ["Di/Service", "Mvc/View/Wrappers/HtmlElement"], function (exports_85, context_85) {
+System.register("Mvc/View/Elements/Figcaption", ["Di/Service", "Mvc/View/Wrappers/HtmlElement"], function (exports_81, context_81) {
     "use strict";
-    var __moduleName = context_85 && context_85.id;
+    var __moduleName = context_81 && context_81.id;
     var Service_35, HtmlElement_34, Figcaption;
     return {
         setters: [
@@ -3943,13 +3311,13 @@ System.register("Mvc/View/Elements/Figcaption", ["Di/Service", "Mvc/View/Wrapper
                     this.initialize(args);
                 }
             };
-            exports_85("Figcaption", Figcaption);
+            exports_81("Figcaption", Figcaption);
         }
     };
 });
-System.register("Mvc/View/Elements/Figure", ["Di/Service", "Mvc/View/Wrappers/HtmlElement"], function (exports_86, context_86) {
+System.register("Mvc/View/Elements/Figure", ["Di/Service", "Mvc/View/Wrappers/HtmlElement"], function (exports_82, context_82) {
     "use strict";
-    var __moduleName = context_86 && context_86.id;
+    var __moduleName = context_82 && context_82.id;
     var Service_36, HtmlElement_35, Figure;
     return {
         setters: [
@@ -3976,13 +3344,13 @@ System.register("Mvc/View/Elements/Figure", ["Di/Service", "Mvc/View/Wrappers/Ht
                     this.initialize(args);
                 }
             };
-            exports_86("Figure", Figure);
+            exports_82("Figure", Figure);
         }
     };
 });
-System.register("Mvc/View/Elements/Footer", ["Di/Service", "Mvc/View/Wrappers/HtmlElement"], function (exports_87, context_87) {
+System.register("Mvc/View/Elements/Footer", ["Di/Service", "Mvc/View/Wrappers/HtmlElement"], function (exports_83, context_83) {
     "use strict";
-    var __moduleName = context_87 && context_87.id;
+    var __moduleName = context_83 && context_83.id;
     var Service_37, HtmlElement_36, Footer;
     return {
         setters: [
@@ -4009,14 +3377,14 @@ System.register("Mvc/View/Elements/Footer", ["Di/Service", "Mvc/View/Wrappers/Ht
                     this.initialize(args);
                 }
             };
-            exports_87("Footer", Footer);
+            exports_83("Footer", Footer);
         }
     };
 });
-System.register("Mvc/View/Elements/Form", ["Di/Service", "Mvc/View/Wrappers/HtmlElement", "Mvc/View/Adapter/ElementAdapter"], function (exports_88, context_88) {
+System.register("Mvc/View/Elements/Form", ["Di/Service", "Mvc/View/Wrappers/HtmlElement", "Mvc/View/Adapter/ElementAdapter"], function (exports_84, context_84) {
     "use strict";
-    var __moduleName = context_88 && context_88.id;
-    var Service_38, HtmlElement_37, ElementAdapter_3, Form;
+    var __moduleName = context_84 && context_84.id;
+    var Service_38, HtmlElement_37, ElementAdapter_1, Form;
     return {
         setters: [
             function (Service_38_1) {
@@ -4025,8 +3393,8 @@ System.register("Mvc/View/Elements/Form", ["Di/Service", "Mvc/View/Wrappers/Html
             function (HtmlElement_37_1) {
                 HtmlElement_37 = HtmlElement_37_1;
             },
-            function (ElementAdapter_3_1) {
-                ElementAdapter_3 = ElementAdapter_3_1;
+            function (ElementAdapter_1_1) {
+                ElementAdapter_1 = ElementAdapter_1_1;
             }
         ],
         execute: function () {
@@ -4094,7 +3462,7 @@ System.register("Mvc/View/Elements/Form", ["Di/Service", "Mvc/View/Wrappers/Html
                     let northwindElements = new Array;
                     let elements = this.getElement().elements;
                     for (let item of elements) {
-                        let aux = new ElementAdapter_3.ElementAdapter(item);
+                        let aux = new ElementAdapter_1.ElementAdapter(item);
                         let element = aux.get();
                         if (element != false) {
                             northwindElements.push(element);
@@ -4121,13 +3489,13 @@ System.register("Mvc/View/Elements/Form", ["Di/Service", "Mvc/View/Wrappers/Html
                     return this.attr("autocomplete");
                 }
             };
-            exports_88("Form", Form);
+            exports_84("Form", Form);
         }
     };
 });
-System.register("Mvc/View/Elements/H1", ["Di/Service", "Mvc/View/Wrappers/HtmlElement"], function (exports_89, context_89) {
+System.register("Mvc/View/Elements/H1", ["Di/Service", "Mvc/View/Wrappers/HtmlElement"], function (exports_85, context_85) {
     "use strict";
-    var __moduleName = context_89 && context_89.id;
+    var __moduleName = context_85 && context_85.id;
     var Service_39, HtmlElement_38, H1;
     return {
         setters: [
@@ -4154,13 +3522,13 @@ System.register("Mvc/View/Elements/H1", ["Di/Service", "Mvc/View/Wrappers/HtmlEl
                     this.initialize(args);
                 }
             };
-            exports_89("H1", H1);
+            exports_85("H1", H1);
         }
     };
 });
-System.register("Mvc/View/Elements/H2", ["Di/Service", "Mvc/View/Wrappers/HtmlElement"], function (exports_90, context_90) {
+System.register("Mvc/View/Elements/H2", ["Di/Service", "Mvc/View/Wrappers/HtmlElement"], function (exports_86, context_86) {
     "use strict";
-    var __moduleName = context_90 && context_90.id;
+    var __moduleName = context_86 && context_86.id;
     var Service_40, HtmlElement_39, H2;
     return {
         setters: [
@@ -4187,13 +3555,13 @@ System.register("Mvc/View/Elements/H2", ["Di/Service", "Mvc/View/Wrappers/HtmlEl
                     this.initialize(args);
                 }
             };
-            exports_90("H2", H2);
+            exports_86("H2", H2);
         }
     };
 });
-System.register("Mvc/View/Elements/H3", ["Di/Service", "Mvc/View/Wrappers/HtmlElement"], function (exports_91, context_91) {
+System.register("Mvc/View/Elements/H3", ["Di/Service", "Mvc/View/Wrappers/HtmlElement"], function (exports_87, context_87) {
     "use strict";
-    var __moduleName = context_91 && context_91.id;
+    var __moduleName = context_87 && context_87.id;
     var Service_41, HtmlElement_40, H3;
     return {
         setters: [
@@ -4220,13 +3588,13 @@ System.register("Mvc/View/Elements/H3", ["Di/Service", "Mvc/View/Wrappers/HtmlEl
                     this.initialize(args);
                 }
             };
-            exports_91("H3", H3);
+            exports_87("H3", H3);
         }
     };
 });
-System.register("Mvc/View/Elements/H4", ["Di/Service", "Mvc/View/Wrappers/HtmlElement"], function (exports_92, context_92) {
+System.register("Mvc/View/Elements/H4", ["Di/Service", "Mvc/View/Wrappers/HtmlElement"], function (exports_88, context_88) {
     "use strict";
-    var __moduleName = context_92 && context_92.id;
+    var __moduleName = context_88 && context_88.id;
     var Service_42, HtmlElement_41, H4;
     return {
         setters: [
@@ -4253,13 +3621,13 @@ System.register("Mvc/View/Elements/H4", ["Di/Service", "Mvc/View/Wrappers/HtmlEl
                     this.initialize(args);
                 }
             };
-            exports_92("H4", H4);
+            exports_88("H4", H4);
         }
     };
 });
-System.register("Mvc/View/Elements/H5", ["Di/Service", "Mvc/View/Wrappers/HtmlElement"], function (exports_93, context_93) {
+System.register("Mvc/View/Elements/H5", ["Di/Service", "Mvc/View/Wrappers/HtmlElement"], function (exports_89, context_89) {
     "use strict";
-    var __moduleName = context_93 && context_93.id;
+    var __moduleName = context_89 && context_89.id;
     var Service_43, HtmlElement_42, H5;
     return {
         setters: [
@@ -4286,13 +3654,13 @@ System.register("Mvc/View/Elements/H5", ["Di/Service", "Mvc/View/Wrappers/HtmlEl
                     this.initialize(args);
                 }
             };
-            exports_93("H5", H5);
+            exports_89("H5", H5);
         }
     };
 });
-System.register("Mvc/View/Elements/H6", ["Di/Service", "Mvc/View/Wrappers/HtmlElement"], function (exports_94, context_94) {
+System.register("Mvc/View/Elements/H6", ["Di/Service", "Mvc/View/Wrappers/HtmlElement"], function (exports_90, context_90) {
     "use strict";
-    var __moduleName = context_94 && context_94.id;
+    var __moduleName = context_90 && context_90.id;
     var Service_44, HtmlElement_43, H6;
     return {
         setters: [
@@ -4319,13 +3687,13 @@ System.register("Mvc/View/Elements/H6", ["Di/Service", "Mvc/View/Wrappers/HtmlEl
                     this.initialize(args);
                 }
             };
-            exports_94("H6", H6);
+            exports_90("H6", H6);
         }
     };
 });
-System.register("Mvc/View/Elements/Head", ["Di/Service", "Mvc/View/Wrappers/HtmlElement"], function (exports_95, context_95) {
+System.register("Mvc/View/Elements/Head", ["Di/Service", "Mvc/View/Wrappers/HtmlElement"], function (exports_91, context_91) {
     "use strict";
-    var __moduleName = context_95 && context_95.id;
+    var __moduleName = context_91 && context_91.id;
     var Service_45, HtmlElement_44, Head;
     return {
         setters: [
@@ -4352,13 +3720,13 @@ System.register("Mvc/View/Elements/Head", ["Di/Service", "Mvc/View/Wrappers/Html
                     this.initialize(args);
                 }
             };
-            exports_95("Head", Head);
+            exports_91("Head", Head);
         }
     };
 });
-System.register("Mvc/View/Elements/Header", ["Di/Service", "Mvc/View/Wrappers/HtmlElement"], function (exports_96, context_96) {
+System.register("Mvc/View/Elements/Header", ["Di/Service", "Mvc/View/Wrappers/HtmlElement"], function (exports_92, context_92) {
     "use strict";
-    var __moduleName = context_96 && context_96.id;
+    var __moduleName = context_92 && context_92.id;
     var Service_46, HtmlElement_45, Header;
     return {
         setters: [
@@ -4385,13 +3753,13 @@ System.register("Mvc/View/Elements/Header", ["Di/Service", "Mvc/View/Wrappers/Ht
                     this.initialize(args);
                 }
             };
-            exports_96("Header", Header);
+            exports_92("Header", Header);
         }
     };
 });
-System.register("Mvc/View/Elements/Iframe", ["Di/Service", "Mvc/View/Wrappers/HtmlElement"], function (exports_97, context_97) {
+System.register("Mvc/View/Elements/Iframe", ["Di/Service", "Mvc/View/Wrappers/HtmlElement"], function (exports_93, context_93) {
     "use strict";
-    var __moduleName = context_97 && context_97.id;
+    var __moduleName = context_93 && context_93.id;
     var Service_47, HtmlElement_46, Iframe;
     return {
         setters: [
@@ -4418,13 +3786,13 @@ System.register("Mvc/View/Elements/Iframe", ["Di/Service", "Mvc/View/Wrappers/Ht
                     this.initialize(args);
                 }
             };
-            exports_97("Iframe", Iframe);
+            exports_93("Iframe", Iframe);
         }
     };
 });
-System.register("Mvc/View/Elements/Img", ["Di/Service", "Mvc/View/Wrappers/HtmlElement"], function (exports_98, context_98) {
+System.register("Mvc/View/Elements/Img", ["Di/Service", "Mvc/View/Wrappers/HtmlElement"], function (exports_94, context_94) {
     "use strict";
-    var __moduleName = context_98 && context_98.id;
+    var __moduleName = context_94 && context_94.id;
     var Service_48, HtmlElement_47, Img;
     return {
         setters: [
@@ -4463,13 +3831,13 @@ System.register("Mvc/View/Elements/Img", ["Di/Service", "Mvc/View/Wrappers/HtmlE
                     return this;
                 }
             };
-            exports_98("Img", Img);
+            exports_94("Img", Img);
         }
     };
 });
-System.register("Mvc/View/Elements/forms/FormTag", ["Mvc/View/Wrappers/HtmlElement", "Mvc/View/Elements/Input"], function (exports_99, context_99) {
+System.register("Mvc/View/Elements/forms/FormTag", ["Mvc/View/Wrappers/HtmlElement", "Mvc/View/Elements/Input"], function (exports_95, context_95) {
     "use strict";
-    var __moduleName = context_99 && context_99.id;
+    var __moduleName = context_95 && context_95.id;
     var HtmlElement_48, Input_1, FormTag;
     return {
         setters: [
@@ -4659,13 +4027,13 @@ System.register("Mvc/View/Elements/forms/FormTag", ["Mvc/View/Wrappers/HtmlEleme
                     return this;
                 }
             };
-            exports_99("FormTag", FormTag);
+            exports_95("FormTag", FormTag);
         }
     };
 });
-System.register("Mvc/View/Elements/Input", ["Di/Service", "Mvc/View/Elements/forms/FormTag"], function (exports_100, context_100) {
+System.register("Mvc/View/Elements/Input", ["Di/Service", "Mvc/View/Elements/forms/FormTag"], function (exports_96, context_96) {
     "use strict";
-    var __moduleName = context_100 && context_100.id;
+    var __moduleName = context_96 && context_96.id;
     var Service_49, FormTag_1, Input;
     return {
         setters: [
@@ -4741,13 +4109,13 @@ System.register("Mvc/View/Elements/Input", ["Di/Service", "Mvc/View/Elements/for
             Input.NO_SPECIAL_CHARACTERS = 2;
             Input.TEXT_NO_SPECIAL_CHARACTERS = 3;
             Input.NUMBERS_NO_SPECIAL_CHARACTERS = 4;
-            exports_100("Input", Input);
+            exports_96("Input", Input);
         }
     };
 });
-System.register("Mvc/View/Elements/Ins", ["Di/Service", "Mvc/View/Wrappers/HtmlElement"], function (exports_101, context_101) {
+System.register("Mvc/View/Elements/Ins", ["Di/Service", "Mvc/View/Wrappers/HtmlElement"], function (exports_97, context_97) {
     "use strict";
-    var __moduleName = context_101 && context_101.id;
+    var __moduleName = context_97 && context_97.id;
     var Service_50, HtmlElement_49, Ins;
     return {
         setters: [
@@ -4774,13 +4142,13 @@ System.register("Mvc/View/Elements/Ins", ["Di/Service", "Mvc/View/Wrappers/HtmlE
                     this.initialize(args);
                 }
             };
-            exports_101("Ins", Ins);
+            exports_97("Ins", Ins);
         }
     };
 });
-System.register("Mvc/View/Elements/Kbd", ["Di/Service", "Mvc/View/Wrappers/HtmlElement"], function (exports_102, context_102) {
+System.register("Mvc/View/Elements/Kbd", ["Di/Service", "Mvc/View/Wrappers/HtmlElement"], function (exports_98, context_98) {
     "use strict";
-    var __moduleName = context_102 && context_102.id;
+    var __moduleName = context_98 && context_98.id;
     var Service_51, HtmlElement_50, Kbd;
     return {
         setters: [
@@ -4807,13 +4175,13 @@ System.register("Mvc/View/Elements/Kbd", ["Di/Service", "Mvc/View/Wrappers/HtmlE
                     this.initialize(args);
                 }
             };
-            exports_102("Kbd", Kbd);
+            exports_98("Kbd", Kbd);
         }
     };
 });
-System.register("Mvc/View/Elements/Keygen", ["Di/Service", "Mvc/View/Wrappers/HtmlElement"], function (exports_103, context_103) {
+System.register("Mvc/View/Elements/Keygen", ["Di/Service", "Mvc/View/Wrappers/HtmlElement"], function (exports_99, context_99) {
     "use strict";
-    var __moduleName = context_103 && context_103.id;
+    var __moduleName = context_99 && context_99.id;
     var Service_52, HtmlElement_51, Keygen;
     return {
         setters: [
@@ -4840,13 +4208,13 @@ System.register("Mvc/View/Elements/Keygen", ["Di/Service", "Mvc/View/Wrappers/Ht
                     this.initialize(args);
                 }
             };
-            exports_103("Keygen", Keygen);
+            exports_99("Keygen", Keygen);
         }
     };
 });
-System.register("Mvc/View/Elements/Label", ["Di/Service", "Mvc/View/Wrappers/HtmlElement"], function (exports_104, context_104) {
+System.register("Mvc/View/Elements/Label", ["Di/Service", "Mvc/View/Wrappers/HtmlElement"], function (exports_100, context_100) {
     "use strict";
-    var __moduleName = context_104 && context_104.id;
+    var __moduleName = context_100 && context_100.id;
     var Service_53, HtmlElement_52, Label;
     return {
         setters: [
@@ -4873,13 +4241,13 @@ System.register("Mvc/View/Elements/Label", ["Di/Service", "Mvc/View/Wrappers/Htm
                     this.initialize(args);
                 }
             };
-            exports_104("Label", Label);
+            exports_100("Label", Label);
         }
     };
 });
-System.register("Mvc/View/Elements/Leyend", ["Di/Service", "Mvc/View/Wrappers/HtmlElement"], function (exports_105, context_105) {
+System.register("Mvc/View/Elements/Leyend", ["Di/Service", "Mvc/View/Wrappers/HtmlElement"], function (exports_101, context_101) {
     "use strict";
-    var __moduleName = context_105 && context_105.id;
+    var __moduleName = context_101 && context_101.id;
     var Service_54, HtmlElement_53, Leyend;
     return {
         setters: [
@@ -4906,13 +4274,13 @@ System.register("Mvc/View/Elements/Leyend", ["Di/Service", "Mvc/View/Wrappers/Ht
                     this.initialize(args);
                 }
             };
-            exports_105("Leyend", Leyend);
+            exports_101("Leyend", Leyend);
         }
     };
 });
-System.register("Mvc/View/Elements/Li", ["Di/Service", "Mvc/View/Wrappers/HtmlElement"], function (exports_106, context_106) {
+System.register("Mvc/View/Elements/Li", ["Di/Service", "Mvc/View/Wrappers/HtmlElement"], function (exports_102, context_102) {
     "use strict";
-    var __moduleName = context_106 && context_106.id;
+    var __moduleName = context_102 && context_102.id;
     var Service_55, HtmlElement_54, Li;
     return {
         setters: [
@@ -4939,13 +4307,13 @@ System.register("Mvc/View/Elements/Li", ["Di/Service", "Mvc/View/Wrappers/HtmlEl
                     this.initialize(args);
                 }
             };
-            exports_106("Li", Li);
+            exports_102("Li", Li);
         }
     };
 });
-System.register("Mvc/View/Elements/Link", ["Di/Service", "Mvc/View/Wrappers/HtmlElement"], function (exports_107, context_107) {
+System.register("Mvc/View/Elements/Link", ["Di/Service", "Mvc/View/Wrappers/HtmlElement"], function (exports_103, context_103) {
     "use strict";
-    var __moduleName = context_107 && context_107.id;
+    var __moduleName = context_103 && context_103.id;
     var Service_56, HtmlElement_55, Link;
     return {
         setters: [
@@ -4972,13 +4340,13 @@ System.register("Mvc/View/Elements/Link", ["Di/Service", "Mvc/View/Wrappers/Html
                     this.initialize(args);
                 }
             };
-            exports_107("Link", Link);
+            exports_103("Link", Link);
         }
     };
 });
-System.register("Mvc/View/Elements/Main", ["Di/Service", "Mvc/View/Wrappers/HtmlElement"], function (exports_108, context_108) {
+System.register("Mvc/View/Elements/Main", ["Di/Service", "Mvc/View/Wrappers/HtmlElement"], function (exports_104, context_104) {
     "use strict";
-    var __moduleName = context_108 && context_108.id;
+    var __moduleName = context_104 && context_104.id;
     var Service_57, HtmlElement_56, Main;
     return {
         setters: [
@@ -5005,13 +4373,13 @@ System.register("Mvc/View/Elements/Main", ["Di/Service", "Mvc/View/Wrappers/Html
                     this.initialize(args);
                 }
             };
-            exports_108("Main", Main);
+            exports_104("Main", Main);
         }
     };
 });
-System.register("Mvc/View/Elements/Menu", ["Di/Service", "Mvc/View/Wrappers/HtmlElement"], function (exports_109, context_109) {
+System.register("Mvc/View/Elements/Menu", ["Di/Service", "Mvc/View/Wrappers/HtmlElement"], function (exports_105, context_105) {
     "use strict";
-    var __moduleName = context_109 && context_109.id;
+    var __moduleName = context_105 && context_105.id;
     var Service_58, HtmlElement_57, Menu;
     return {
         setters: [
@@ -5038,13 +4406,13 @@ System.register("Mvc/View/Elements/Menu", ["Di/Service", "Mvc/View/Wrappers/Html
                     this.initialize(args);
                 }
             };
-            exports_109("Menu", Menu);
+            exports_105("Menu", Menu);
         }
     };
 });
-System.register("Mvc/View/Elements/Menuitem", ["Di/Service", "Mvc/View/Wrappers/HtmlElement"], function (exports_110, context_110) {
+System.register("Mvc/View/Elements/Menuitem", ["Di/Service", "Mvc/View/Wrappers/HtmlElement"], function (exports_106, context_106) {
     "use strict";
-    var __moduleName = context_110 && context_110.id;
+    var __moduleName = context_106 && context_106.id;
     var Service_59, HtmlElement_58, Menuitem;
     return {
         setters: [
@@ -5071,13 +4439,13 @@ System.register("Mvc/View/Elements/Menuitem", ["Di/Service", "Mvc/View/Wrappers/
                     this.initialize(args);
                 }
             };
-            exports_110("Menuitem", Menuitem);
+            exports_106("Menuitem", Menuitem);
         }
     };
 });
-System.register("Mvc/View/Elements/Meta", ["Di/Service", "Mvc/View/Wrappers/HtmlElement"], function (exports_111, context_111) {
+System.register("Mvc/View/Elements/Meta", ["Di/Service", "Mvc/View/Wrappers/HtmlElement"], function (exports_107, context_107) {
     "use strict";
-    var __moduleName = context_111 && context_111.id;
+    var __moduleName = context_107 && context_107.id;
     var Service_60, HtmlElement_59, Meta;
     return {
         setters: [
@@ -5104,13 +4472,13 @@ System.register("Mvc/View/Elements/Meta", ["Di/Service", "Mvc/View/Wrappers/Html
                     this.initialize(args);
                 }
             };
-            exports_111("Meta", Meta);
+            exports_107("Meta", Meta);
         }
     };
 });
-System.register("Mvc/View/Elements/Meter", ["Di/Service", "Mvc/View/Wrappers/HtmlElement"], function (exports_112, context_112) {
+System.register("Mvc/View/Elements/Meter", ["Di/Service", "Mvc/View/Wrappers/HtmlElement"], function (exports_108, context_108) {
     "use strict";
-    var __moduleName = context_112 && context_112.id;
+    var __moduleName = context_108 && context_108.id;
     var Service_61, HtmlElement_60, Meter;
     return {
         setters: [
@@ -5137,13 +4505,13 @@ System.register("Mvc/View/Elements/Meter", ["Di/Service", "Mvc/View/Wrappers/Htm
                     this.initialize(args);
                 }
             };
-            exports_112("Meter", Meter);
+            exports_108("Meter", Meter);
         }
     };
 });
-System.register("Mvc/View/Elements/Nav", ["Di/Service", "Mvc/View/Wrappers/HtmlElement"], function (exports_113, context_113) {
+System.register("Mvc/View/Elements/Nav", ["Di/Service", "Mvc/View/Wrappers/HtmlElement"], function (exports_109, context_109) {
     "use strict";
-    var __moduleName = context_113 && context_113.id;
+    var __moduleName = context_109 && context_109.id;
     var Service_62, HtmlElement_61, Nav;
     return {
         setters: [
@@ -5170,13 +4538,13 @@ System.register("Mvc/View/Elements/Nav", ["Di/Service", "Mvc/View/Wrappers/HtmlE
                     this.initialize(args);
                 }
             };
-            exports_113("Nav", Nav);
+            exports_109("Nav", Nav);
         }
     };
 });
-System.register("Mvc/View/Elements/Noscrip", ["Di/Service", "Mvc/View/Wrappers/HtmlElement"], function (exports_114, context_114) {
+System.register("Mvc/View/Elements/Noscrip", ["Di/Service", "Mvc/View/Wrappers/HtmlElement"], function (exports_110, context_110) {
     "use strict";
-    var __moduleName = context_114 && context_114.id;
+    var __moduleName = context_110 && context_110.id;
     var Service_63, HtmlElement_62, Noscrip;
     return {
         setters: [
@@ -5203,13 +4571,13 @@ System.register("Mvc/View/Elements/Noscrip", ["Di/Service", "Mvc/View/Wrappers/H
                     this.initialize(args);
                 }
             };
-            exports_114("Noscrip", Noscrip);
+            exports_110("Noscrip", Noscrip);
         }
     };
 });
-System.register("Mvc/View/Elements/Obj", ["Di/Service", "Mvc/View/Wrappers/HtmlElement"], function (exports_115, context_115) {
+System.register("Mvc/View/Elements/Obj", ["Di/Service", "Mvc/View/Wrappers/HtmlElement"], function (exports_111, context_111) {
     "use strict";
-    var __moduleName = context_115 && context_115.id;
+    var __moduleName = context_111 && context_111.id;
     var Service_64, HtmlElement_63, Obj;
     return {
         setters: [
@@ -5236,13 +4604,13 @@ System.register("Mvc/View/Elements/Obj", ["Di/Service", "Mvc/View/Wrappers/HtmlE
                     this.initialize(args);
                 }
             };
-            exports_115("Obj", Obj);
+            exports_111("Obj", Obj);
         }
     };
 });
-System.register("Mvc/View/Elements/Ol", ["Di/Service", "Mvc/View/Wrappers/HtmlElement"], function (exports_116, context_116) {
+System.register("Mvc/View/Elements/Ol", ["Di/Service", "Mvc/View/Wrappers/HtmlElement"], function (exports_112, context_112) {
     "use strict";
-    var __moduleName = context_116 && context_116.id;
+    var __moduleName = context_112 && context_112.id;
     var Service_65, HtmlElement_64, Ol;
     return {
         setters: [
@@ -5269,13 +4637,13 @@ System.register("Mvc/View/Elements/Ol", ["Di/Service", "Mvc/View/Wrappers/HtmlEl
                     this.initialize(args);
                 }
             };
-            exports_116("Ol", Ol);
+            exports_112("Ol", Ol);
         }
     };
 });
-System.register("Mvc/View/Elements/Optgroup", ["Di/Service", "Mvc/View/Wrappers/HtmlElement"], function (exports_117, context_117) {
+System.register("Mvc/View/Elements/Optgroup", ["Di/Service", "Mvc/View/Wrappers/HtmlElement"], function (exports_113, context_113) {
     "use strict";
-    var __moduleName = context_117 && context_117.id;
+    var __moduleName = context_113 && context_113.id;
     var Service_66, HtmlElement_65, Optgroup;
     return {
         setters: [
@@ -5302,13 +4670,13 @@ System.register("Mvc/View/Elements/Optgroup", ["Di/Service", "Mvc/View/Wrappers/
                     this.initialize(args);
                 }
             };
-            exports_117("Optgroup", Optgroup);
+            exports_113("Optgroup", Optgroup);
         }
     };
 });
-System.register("Mvc/View/Elements/P", ["Di/Service", "Mvc/View/Wrappers/HtmlElement"], function (exports_118, context_118) {
+System.register("Mvc/View/Elements/P", ["Di/Service", "Mvc/View/Wrappers/HtmlElement"], function (exports_114, context_114) {
     "use strict";
-    var __moduleName = context_118 && context_118.id;
+    var __moduleName = context_114 && context_114.id;
     var Service_67, HtmlElement_66, P;
     return {
         setters: [
@@ -5335,13 +4703,13 @@ System.register("Mvc/View/Elements/P", ["Di/Service", "Mvc/View/Wrappers/HtmlEle
                     this.initialize(args);
                 }
             };
-            exports_118("P", P);
+            exports_114("P", P);
         }
     };
 });
-System.register("Mvc/View/Elements/Param", ["Di/Service", "Mvc/View/Wrappers/HtmlElement"], function (exports_119, context_119) {
+System.register("Mvc/View/Elements/Param", ["Di/Service", "Mvc/View/Wrappers/HtmlElement"], function (exports_115, context_115) {
     "use strict";
-    var __moduleName = context_119 && context_119.id;
+    var __moduleName = context_115 && context_115.id;
     var Service_68, HtmlElement_67, Param;
     return {
         setters: [
@@ -5368,13 +4736,13 @@ System.register("Mvc/View/Elements/Param", ["Di/Service", "Mvc/View/Wrappers/Htm
                     this.initialize(args);
                 }
             };
-            exports_119("Param", Param);
+            exports_115("Param", Param);
         }
     };
 });
-System.register("Mvc/View/Elements/Pre", ["Di/Service", "Mvc/View/Wrappers/HtmlElement"], function (exports_120, context_120) {
+System.register("Mvc/View/Elements/Pre", ["Di/Service", "Mvc/View/Wrappers/HtmlElement"], function (exports_116, context_116) {
     "use strict";
-    var __moduleName = context_120 && context_120.id;
+    var __moduleName = context_116 && context_116.id;
     var Service_69, HtmlElement_68, Pre;
     return {
         setters: [
@@ -5401,13 +4769,13 @@ System.register("Mvc/View/Elements/Pre", ["Di/Service", "Mvc/View/Wrappers/HtmlE
                     this.initialize(args);
                 }
             };
-            exports_120("Pre", Pre);
+            exports_116("Pre", Pre);
         }
     };
 });
-System.register("Mvc/View/Elements/Progress", ["Di/Service", "Mvc/View/Wrappers/HtmlElement"], function (exports_121, context_121) {
+System.register("Mvc/View/Elements/Progress", ["Di/Service", "Mvc/View/Wrappers/HtmlElement"], function (exports_117, context_117) {
     "use strict";
-    var __moduleName = context_121 && context_121.id;
+    var __moduleName = context_117 && context_117.id;
     var Service_70, HtmlElement_69, Progress;
     return {
         setters: [
@@ -5434,13 +4802,13 @@ System.register("Mvc/View/Elements/Progress", ["Di/Service", "Mvc/View/Wrappers/
                     this.initialize(args);
                 }
             };
-            exports_121("Progress", Progress);
+            exports_117("Progress", Progress);
         }
     };
 });
-System.register("Mvc/View/Elements/Q", ["Di/Service", "Mvc/View/Wrappers/HtmlElement"], function (exports_122, context_122) {
+System.register("Mvc/View/Elements/Q", ["Di/Service", "Mvc/View/Wrappers/HtmlElement"], function (exports_118, context_118) {
     "use strict";
-    var __moduleName = context_122 && context_122.id;
+    var __moduleName = context_118 && context_118.id;
     var Service_71, HtmlElement_70, Q;
     return {
         setters: [
@@ -5467,13 +4835,13 @@ System.register("Mvc/View/Elements/Q", ["Di/Service", "Mvc/View/Wrappers/HtmlEle
                     this.initialize(args);
                 }
             };
-            exports_122("Q", Q);
+            exports_118("Q", Q);
         }
     };
 });
-System.register("Mvc/View/Elements/Rp", ["Di/Service", "Mvc/View/Wrappers/HtmlElement"], function (exports_123, context_123) {
+System.register("Mvc/View/Elements/Rp", ["Di/Service", "Mvc/View/Wrappers/HtmlElement"], function (exports_119, context_119) {
     "use strict";
-    var __moduleName = context_123 && context_123.id;
+    var __moduleName = context_119 && context_119.id;
     var Service_72, HtmlElement_71, Rp;
     return {
         setters: [
@@ -5500,13 +4868,13 @@ System.register("Mvc/View/Elements/Rp", ["Di/Service", "Mvc/View/Wrappers/HtmlEl
                     this.initialize(args);
                 }
             };
-            exports_123("Rp", Rp);
+            exports_119("Rp", Rp);
         }
     };
 });
-System.register("Mvc/View/Elements/Rt", ["Di/Service", "Mvc/View/Wrappers/HtmlElement"], function (exports_124, context_124) {
+System.register("Mvc/View/Elements/Rt", ["Di/Service", "Mvc/View/Wrappers/HtmlElement"], function (exports_120, context_120) {
     "use strict";
-    var __moduleName = context_124 && context_124.id;
+    var __moduleName = context_120 && context_120.id;
     var Service_73, HtmlElement_72, Rt;
     return {
         setters: [
@@ -5533,13 +4901,13 @@ System.register("Mvc/View/Elements/Rt", ["Di/Service", "Mvc/View/Wrappers/HtmlEl
                     this.initialize(args);
                 }
             };
-            exports_124("Rt", Rt);
+            exports_120("Rt", Rt);
         }
     };
 });
-System.register("Mvc/View/Elements/Ruby", ["Di/Service", "Mvc/View/Wrappers/HtmlElement"], function (exports_125, context_125) {
+System.register("Mvc/View/Elements/Ruby", ["Di/Service", "Mvc/View/Wrappers/HtmlElement"], function (exports_121, context_121) {
     "use strict";
-    var __moduleName = context_125 && context_125.id;
+    var __moduleName = context_121 && context_121.id;
     var Service_74, HtmlElement_73, Ruby;
     return {
         setters: [
@@ -5566,13 +4934,13 @@ System.register("Mvc/View/Elements/Ruby", ["Di/Service", "Mvc/View/Wrappers/Html
                     this.initialize(args);
                 }
             };
-            exports_125("Ruby", Ruby);
+            exports_121("Ruby", Ruby);
         }
     };
 });
-System.register("Mvc/View/Elements/S", ["Di/Service", "Mvc/View/Wrappers/HtmlElement"], function (exports_126, context_126) {
+System.register("Mvc/View/Elements/S", ["Di/Service", "Mvc/View/Wrappers/HtmlElement"], function (exports_122, context_122) {
     "use strict";
-    var __moduleName = context_126 && context_126.id;
+    var __moduleName = context_122 && context_122.id;
     var Service_75, HtmlElement_74, S;
     return {
         setters: [
@@ -5599,13 +4967,13 @@ System.register("Mvc/View/Elements/S", ["Di/Service", "Mvc/View/Wrappers/HtmlEle
                     this.initialize(args);
                 }
             };
-            exports_126("S", S);
+            exports_122("S", S);
         }
     };
 });
-System.register("Mvc/View/Elements/Samp", ["Di/Service", "Mvc/View/Wrappers/HtmlElement"], function (exports_127, context_127) {
+System.register("Mvc/View/Elements/Samp", ["Di/Service", "Mvc/View/Wrappers/HtmlElement"], function (exports_123, context_123) {
     "use strict";
-    var __moduleName = context_127 && context_127.id;
+    var __moduleName = context_123 && context_123.id;
     var Service_76, HtmlElement_75, Samp;
     return {
         setters: [
@@ -5632,13 +5000,13 @@ System.register("Mvc/View/Elements/Samp", ["Di/Service", "Mvc/View/Wrappers/Html
                     this.initialize(args);
                 }
             };
-            exports_127("Samp", Samp);
+            exports_123("Samp", Samp);
         }
     };
 });
-System.register("Mvc/View/Elements/Script", ["Di/Service", "Mvc/View/Wrappers/HtmlElement"], function (exports_128, context_128) {
+System.register("Mvc/View/Elements/Script", ["Di/Service", "Mvc/View/Wrappers/HtmlElement"], function (exports_124, context_124) {
     "use strict";
-    var __moduleName = context_128 && context_128.id;
+    var __moduleName = context_124 && context_124.id;
     var Service_77, HtmlElement_76, Script;
     return {
         setters: [
@@ -5665,13 +5033,13 @@ System.register("Mvc/View/Elements/Script", ["Di/Service", "Mvc/View/Wrappers/Ht
                     this.initialize(args);
                 }
             };
-            exports_128("Script", Script);
+            exports_124("Script", Script);
         }
     };
 });
-System.register("Mvc/View/Elements/Section", ["Di/Service", "Mvc/View/Wrappers/HtmlElement"], function (exports_129, context_129) {
+System.register("Mvc/View/Elements/Section", ["Di/Service", "Mvc/View/Wrappers/HtmlElement"], function (exports_125, context_125) {
     "use strict";
-    var __moduleName = context_129 && context_129.id;
+    var __moduleName = context_125 && context_125.id;
     var Service_78, HtmlElement_77, Section;
     return {
         setters: [
@@ -5698,13 +5066,13 @@ System.register("Mvc/View/Elements/Section", ["Di/Service", "Mvc/View/Wrappers/H
                     this.initialize(args);
                 }
             };
-            exports_129("Section", Section);
+            exports_125("Section", Section);
         }
     };
 });
-System.register("Mvc/View/Elements/Option", ["Di/Service", "Mvc/View/Wrappers/HtmlElement"], function (exports_130, context_130) {
+System.register("Mvc/View/Elements/Option", ["Di/Service", "Mvc/View/Wrappers/HtmlElement"], function (exports_126, context_126) {
     "use strict";
-    var __moduleName = context_130 && context_130.id;
+    var __moduleName = context_126 && context_126.id;
     var Service_79, HtmlElement_78, Option;
     return {
         setters: [
@@ -5754,13 +5122,13 @@ System.register("Mvc/View/Elements/Option", ["Di/Service", "Mvc/View/Wrappers/Ht
                     return this.getElement().text;
                 }
             };
-            exports_130("Option", Option);
+            exports_126("Option", Option);
         }
     };
 });
-System.register("Mvc/View/Elements/Select", ["Mvc/View/Elements/Option", "Mvc/View/Elements/forms/FormTag", "Di/Service", "Mvc/Model/StaticModel"], function (exports_131, context_131) {
+System.register("Mvc/View/Elements/Select", ["Mvc/View/Elements/Option", "Mvc/View/Elements/forms/FormTag", "Di/Service", "Mvc/Model/StaticModel"], function (exports_127, context_127) {
     "use strict";
-    var __moduleName = context_131 && context_131.id;
+    var __moduleName = context_127 && context_127.id;
     var Option_1, FormTag_2, Service_80, StaticModel_2, Select;
     return {
         setters: [
@@ -5853,13 +5221,13 @@ System.register("Mvc/View/Elements/Select", ["Mvc/View/Elements/Option", "Mvc/Vi
                     return this;
                 }
             };
-            exports_131("Select", Select);
+            exports_127("Select", Select);
         }
     };
 });
-System.register("Mvc/View/Elements/Small", ["Di/Service", "Mvc/View/Wrappers/HtmlElement"], function (exports_132, context_132) {
+System.register("Mvc/View/Elements/Small", ["Di/Service", "Mvc/View/Wrappers/HtmlElement"], function (exports_128, context_128) {
     "use strict";
-    var __moduleName = context_132 && context_132.id;
+    var __moduleName = context_128 && context_128.id;
     var Service_81, HtmlElement_79, Small;
     return {
         setters: [
@@ -5886,13 +5254,13 @@ System.register("Mvc/View/Elements/Small", ["Di/Service", "Mvc/View/Wrappers/Htm
                     this.initialize(args);
                 }
             };
-            exports_132("Small", Small);
+            exports_128("Small", Small);
         }
     };
 });
-System.register("Mvc/View/Elements/Source", ["Di/Service", "Mvc/View/Wrappers/HtmlElement"], function (exports_133, context_133) {
+System.register("Mvc/View/Elements/Source", ["Di/Service", "Mvc/View/Wrappers/HtmlElement"], function (exports_129, context_129) {
     "use strict";
-    var __moduleName = context_133 && context_133.id;
+    var __moduleName = context_129 && context_129.id;
     var Service_82, HtmlElement_80, Source;
     return {
         setters: [
@@ -5919,13 +5287,13 @@ System.register("Mvc/View/Elements/Source", ["Di/Service", "Mvc/View/Wrappers/Ht
                     this.initialize(args);
                 }
             };
-            exports_133("Source", Source);
+            exports_129("Source", Source);
         }
     };
 });
-System.register("Mvc/View/Elements/Span", ["Di/Service", "Mvc/View/Wrappers/HtmlElement"], function (exports_134, context_134) {
+System.register("Mvc/View/Elements/Span", ["Di/Service", "Mvc/View/Wrappers/HtmlElement"], function (exports_130, context_130) {
     "use strict";
-    var __moduleName = context_134 && context_134.id;
+    var __moduleName = context_130 && context_130.id;
     var Service_83, HtmlElement_81, Span;
     return {
         setters: [
@@ -5952,13 +5320,13 @@ System.register("Mvc/View/Elements/Span", ["Di/Service", "Mvc/View/Wrappers/Html
                     this.initialize(args);
                 }
             };
-            exports_134("Span", Span);
+            exports_130("Span", Span);
         }
     };
 });
-System.register("Mvc/View/Elements/Strong", ["Di/Service", "Mvc/View/Wrappers/HtmlElement"], function (exports_135, context_135) {
+System.register("Mvc/View/Elements/Strong", ["Di/Service", "Mvc/View/Wrappers/HtmlElement"], function (exports_131, context_131) {
     "use strict";
-    var __moduleName = context_135 && context_135.id;
+    var __moduleName = context_131 && context_131.id;
     var Service_84, HtmlElement_82, Strong;
     return {
         setters: [
@@ -5985,13 +5353,13 @@ System.register("Mvc/View/Elements/Strong", ["Di/Service", "Mvc/View/Wrappers/Ht
                     this.initialize(args);
                 }
             };
-            exports_135("Strong", Strong);
+            exports_131("Strong", Strong);
         }
     };
 });
-System.register("Mvc/View/Elements/Style", ["Di/Service", "Mvc/View/Wrappers/HtmlElement"], function (exports_136, context_136) {
+System.register("Mvc/View/Elements/Style", ["Di/Service", "Mvc/View/Wrappers/HtmlElement"], function (exports_132, context_132) {
     "use strict";
-    var __moduleName = context_136 && context_136.id;
+    var __moduleName = context_132 && context_132.id;
     var Service_85, HtmlElement_83, Style;
     return {
         setters: [
@@ -6018,13 +5386,13 @@ System.register("Mvc/View/Elements/Style", ["Di/Service", "Mvc/View/Wrappers/Htm
                     this.initialize(args);
                 }
             };
-            exports_136("Style", Style);
+            exports_132("Style", Style);
         }
     };
 });
-System.register("Mvc/View/Elements/Sub", ["Di/Service", "Mvc/View/Wrappers/HtmlElement"], function (exports_137, context_137) {
+System.register("Mvc/View/Elements/Sub", ["Di/Service", "Mvc/View/Wrappers/HtmlElement"], function (exports_133, context_133) {
     "use strict";
-    var __moduleName = context_137 && context_137.id;
+    var __moduleName = context_133 && context_133.id;
     var Service_86, HtmlElement_84, Sub;
     return {
         setters: [
@@ -6051,13 +5419,13 @@ System.register("Mvc/View/Elements/Sub", ["Di/Service", "Mvc/View/Wrappers/HtmlE
                     this.initialize(args);
                 }
             };
-            exports_137("Sub", Sub);
+            exports_133("Sub", Sub);
         }
     };
 });
-System.register("Mvc/View/Elements/Summary", ["Di/Service", "Mvc/View/Wrappers/HtmlElement"], function (exports_138, context_138) {
+System.register("Mvc/View/Elements/Summary", ["Di/Service", "Mvc/View/Wrappers/HtmlElement"], function (exports_134, context_134) {
     "use strict";
-    var __moduleName = context_138 && context_138.id;
+    var __moduleName = context_134 && context_134.id;
     var Service_87, HtmlElement_85, Summary;
     return {
         setters: [
@@ -6084,13 +5452,13 @@ System.register("Mvc/View/Elements/Summary", ["Di/Service", "Mvc/View/Wrappers/H
                     this.initialize(args);
                 }
             };
-            exports_138("Summary", Summary);
+            exports_134("Summary", Summary);
         }
     };
 });
-System.register("Mvc/View/Elements/Sup", ["Di/Service", "Mvc/View/Wrappers/HtmlElement"], function (exports_139, context_139) {
+System.register("Mvc/View/Elements/Sup", ["Di/Service", "Mvc/View/Wrappers/HtmlElement"], function (exports_135, context_135) {
     "use strict";
-    var __moduleName = context_139 && context_139.id;
+    var __moduleName = context_135 && context_135.id;
     var Service_88, HtmlElement_86, Sup;
     return {
         setters: [
@@ -6117,13 +5485,13 @@ System.register("Mvc/View/Elements/Sup", ["Di/Service", "Mvc/View/Wrappers/HtmlE
                     this.initialize(args);
                 }
             };
-            exports_139("Sup", Sup);
+            exports_135("Sup", Sup);
         }
     };
 });
-System.register("Mvc/View/Elements/Td", ["Di/Service", "Mvc/View/Wrappers/HtmlElement"], function (exports_140, context_140) {
+System.register("Mvc/View/Elements/Td", ["Di/Service", "Mvc/View/Wrappers/HtmlElement"], function (exports_136, context_136) {
     "use strict";
-    var __moduleName = context_140 && context_140.id;
+    var __moduleName = context_136 && context_136.id;
     var Service_89, HtmlElement_87, Td;
     return {
         setters: [
@@ -6171,13 +5539,13 @@ System.register("Mvc/View/Elements/Td", ["Di/Service", "Mvc/View/Wrappers/HtmlEl
                     return this;
                 }
             };
-            exports_140("Td", Td);
+            exports_136("Td", Td);
         }
     };
 });
-System.register("Mvc/View/Elements/Thead", ["Di/Service", "Mvc/View/Wrappers/HtmlElement"], function (exports_141, context_141) {
+System.register("Mvc/View/Elements/Thead", ["Di/Service", "Mvc/View/Wrappers/HtmlElement"], function (exports_137, context_137) {
     "use strict";
-    var __moduleName = context_141 && context_141.id;
+    var __moduleName = context_137 && context_137.id;
     var Service_90, HtmlElement_88, Thead;
     return {
         setters: [
@@ -6204,13 +5572,13 @@ System.register("Mvc/View/Elements/Thead", ["Di/Service", "Mvc/View/Wrappers/Htm
                     this.initialize(args);
                 }
             };
-            exports_141("Thead", Thead);
+            exports_137("Thead", Thead);
         }
     };
 });
-System.register("Mvc/View/Elements/Tbody", ["Di/Service", "Mvc/View/Wrappers/HtmlElement"], function (exports_142, context_142) {
+System.register("Mvc/View/Elements/Tbody", ["Di/Service", "Mvc/View/Wrappers/HtmlElement"], function (exports_138, context_138) {
     "use strict";
-    var __moduleName = context_142 && context_142.id;
+    var __moduleName = context_138 && context_138.id;
     var Service_91, HtmlElement_89, Tbody;
     return {
         setters: [
@@ -6237,13 +5605,13 @@ System.register("Mvc/View/Elements/Tbody", ["Di/Service", "Mvc/View/Wrappers/Htm
                     this.initialize(args);
                 }
             };
-            exports_142("Tbody", Tbody);
+            exports_138("Tbody", Tbody);
         }
     };
 });
-System.register("Mvc/View/Elements/Tfoot", ["Di/Service", "Mvc/View/Wrappers/HtmlElement"], function (exports_143, context_143) {
+System.register("Mvc/View/Elements/Tfoot", ["Di/Service", "Mvc/View/Wrappers/HtmlElement"], function (exports_139, context_139) {
     "use strict";
-    var __moduleName = context_143 && context_143.id;
+    var __moduleName = context_139 && context_139.id;
     var Service_92, HtmlElement_90, Tfoot;
     return {
         setters: [
@@ -6270,13 +5638,13 @@ System.register("Mvc/View/Elements/Tfoot", ["Di/Service", "Mvc/View/Wrappers/Htm
                     this.initialize(args);
                 }
             };
-            exports_143("Tfoot", Tfoot);
+            exports_139("Tfoot", Tfoot);
         }
     };
 });
-System.register("Mvc/View/Elements/Tr", ["Di/Service", "Mvc/View/Wrappers/HtmlElement"], function (exports_144, context_144) {
+System.register("Mvc/View/Elements/Tr", ["Di/Service", "Mvc/View/Wrappers/HtmlElement"], function (exports_140, context_140) {
     "use strict";
-    var __moduleName = context_144 && context_144.id;
+    var __moduleName = context_140 && context_140.id;
     var Service_93, HtmlElement_91, Tr;
     return {
         setters: [
@@ -6303,13 +5671,13 @@ System.register("Mvc/View/Elements/Tr", ["Di/Service", "Mvc/View/Wrappers/HtmlEl
                     this.initialize(args);
                 }
             };
-            exports_144("Tr", Tr);
+            exports_140("Tr", Tr);
         }
     };
 });
-System.register("Mvc/View/Elements/Table", ["Di/Service", "Mvc/View/Wrappers/HtmlElement", "Mvc/View/Elements/Thead", "Mvc/View/Elements/Tbody", "Mvc/View/Elements/Tfoot", "Mvc/View/Elements/Tr"], function (exports_145, context_145) {
+System.register("Mvc/View/Elements/Table", ["Di/Service", "Mvc/View/Wrappers/HtmlElement", "Mvc/View/Elements/Thead", "Mvc/View/Elements/Tbody", "Mvc/View/Elements/Tfoot", "Mvc/View/Elements/Tr"], function (exports_141, context_141) {
     "use strict";
-    var __moduleName = context_145 && context_145.id;
+    var __moduleName = context_141 && context_141.id;
     var Service_94, HtmlElement_92, Thead_1, Tbody_1, Tfoot_1, Tr_1, Table;
     return {
         setters: [
@@ -6418,13 +5786,13 @@ System.register("Mvc/View/Elements/Table", ["Di/Service", "Mvc/View/Wrappers/Htm
                     return this;
                 }
             };
-            exports_145("Table", Table);
+            exports_141("Table", Table);
         }
     };
 });
-System.register("Mvc/View/Elements/Textarea", ["Di/Service", "Mvc/View/Wrappers/HtmlElement"], function (exports_146, context_146) {
+System.register("Mvc/View/Elements/Textarea", ["Di/Service", "Mvc/View/Wrappers/HtmlElement"], function (exports_142, context_142) {
     "use strict";
-    var __moduleName = context_146 && context_146.id;
+    var __moduleName = context_142 && context_142.id;
     var Service_95, HtmlElement_93, Textarea;
     return {
         setters: [
@@ -6451,13 +5819,13 @@ System.register("Mvc/View/Elements/Textarea", ["Di/Service", "Mvc/View/Wrappers/
                     this.initialize(args);
                 }
             };
-            exports_146("Textarea", Textarea);
+            exports_142("Textarea", Textarea);
         }
     };
 });
-System.register("Mvc/View/Elements/Th", ["Di/Service", "Mvc/View/Wrappers/HtmlElement"], function (exports_147, context_147) {
+System.register("Mvc/View/Elements/Th", ["Di/Service", "Mvc/View/Wrappers/HtmlElement"], function (exports_143, context_143) {
     "use strict";
-    var __moduleName = context_147 && context_147.id;
+    var __moduleName = context_143 && context_143.id;
     var Service_96, HtmlElement_94, Th;
     return {
         setters: [
@@ -6506,13 +5874,13 @@ System.register("Mvc/View/Elements/Th", ["Di/Service", "Mvc/View/Wrappers/HtmlEl
                     return this;
                 }
             };
-            exports_147("Th", Th);
+            exports_143("Th", Th);
         }
     };
 });
-System.register("Mvc/View/Elements/Time", ["Di/Service", "Mvc/View/Wrappers/HtmlElement"], function (exports_148, context_148) {
+System.register("Mvc/View/Elements/Time", ["Di/Service", "Mvc/View/Wrappers/HtmlElement"], function (exports_144, context_144) {
     "use strict";
-    var __moduleName = context_148 && context_148.id;
+    var __moduleName = context_144 && context_144.id;
     var Service_97, HtmlElement_95, Time;
     return {
         setters: [
@@ -6539,13 +5907,13 @@ System.register("Mvc/View/Elements/Time", ["Di/Service", "Mvc/View/Wrappers/Html
                     this.initialize(args);
                 }
             };
-            exports_148("Time", Time);
+            exports_144("Time", Time);
         }
     };
 });
-System.register("Mvc/View/Elements/Title", ["Di/Service", "Mvc/View/Wrappers/HtmlElement"], function (exports_149, context_149) {
+System.register("Mvc/View/Elements/Title", ["Di/Service", "Mvc/View/Wrappers/HtmlElement"], function (exports_145, context_145) {
     "use strict";
-    var __moduleName = context_149 && context_149.id;
+    var __moduleName = context_145 && context_145.id;
     var Service_98, HtmlElement_96, Title;
     return {
         setters: [
@@ -6572,13 +5940,13 @@ System.register("Mvc/View/Elements/Title", ["Di/Service", "Mvc/View/Wrappers/Htm
                     this.initialize(args);
                 }
             };
-            exports_149("Title", Title);
+            exports_145("Title", Title);
         }
     };
 });
-System.register("Mvc/View/Elements/Track", ["Di/Service", "Mvc/View/Wrappers/HtmlElement"], function (exports_150, context_150) {
+System.register("Mvc/View/Elements/Track", ["Di/Service", "Mvc/View/Wrappers/HtmlElement"], function (exports_146, context_146) {
     "use strict";
-    var __moduleName = context_150 && context_150.id;
+    var __moduleName = context_146 && context_146.id;
     var Service_99, HtmlElement_97, Track;
     return {
         setters: [
@@ -6605,13 +5973,13 @@ System.register("Mvc/View/Elements/Track", ["Di/Service", "Mvc/View/Wrappers/Htm
                     this.initialize(args);
                 }
             };
-            exports_150("Track", Track);
+            exports_146("Track", Track);
         }
     };
 });
-System.register("Mvc/View/Elements/U", ["Di/Service", "Mvc/View/Wrappers/HtmlElement"], function (exports_151, context_151) {
+System.register("Mvc/View/Elements/U", ["Di/Service", "Mvc/View/Wrappers/HtmlElement"], function (exports_147, context_147) {
     "use strict";
-    var __moduleName = context_151 && context_151.id;
+    var __moduleName = context_147 && context_147.id;
     var Service_100, HtmlElement_98, U;
     return {
         setters: [
@@ -6638,13 +6006,13 @@ System.register("Mvc/View/Elements/U", ["Di/Service", "Mvc/View/Wrappers/HtmlEle
                     this.initialize(args);
                 }
             };
-            exports_151("U", U);
+            exports_147("U", U);
         }
     };
 });
-System.register("Mvc/View/Elements/Ul", ["Di/Service", "Mvc/View/Wrappers/HtmlElement"], function (exports_152, context_152) {
+System.register("Mvc/View/Elements/Ul", ["Di/Service", "Mvc/View/Wrappers/HtmlElement"], function (exports_148, context_148) {
     "use strict";
-    var __moduleName = context_152 && context_152.id;
+    var __moduleName = context_148 && context_148.id;
     var Service_101, HtmlElement_99, Ul;
     return {
         setters: [
@@ -6671,13 +6039,13 @@ System.register("Mvc/View/Elements/Ul", ["Di/Service", "Mvc/View/Wrappers/HtmlEl
                     this.initialize(args);
                 }
             };
-            exports_152("Ul", Ul);
+            exports_148("Ul", Ul);
         }
     };
 });
-System.register("Mvc/View/Elements/Var", ["Di/Service", "Mvc/View/Wrappers/HtmlElement"], function (exports_153, context_153) {
+System.register("Mvc/View/Elements/Var", ["Di/Service", "Mvc/View/Wrappers/HtmlElement"], function (exports_149, context_149) {
     "use strict";
-    var __moduleName = context_153 && context_153.id;
+    var __moduleName = context_149 && context_149.id;
     var Service_102, HtmlElement_100, Var;
     return {
         setters: [
@@ -6704,13 +6072,13 @@ System.register("Mvc/View/Elements/Var", ["Di/Service", "Mvc/View/Wrappers/HtmlE
                     this.initialize(args);
                 }
             };
-            exports_153("Var", Var);
+            exports_149("Var", Var);
         }
     };
 });
-System.register("Mvc/View/Elements/Video", ["Di/Service", "Mvc/View/Wrappers/HtmlElement"], function (exports_154, context_154) {
+System.register("Mvc/View/Elements/Video", ["Di/Service", "Mvc/View/Wrappers/HtmlElement"], function (exports_150, context_150) {
     "use strict";
-    var __moduleName = context_154 && context_154.id;
+    var __moduleName = context_150 && context_150.id;
     var Service_103, HtmlElement_101, Video;
     return {
         setters: [
@@ -6737,13 +6105,13 @@ System.register("Mvc/View/Elements/Video", ["Di/Service", "Mvc/View/Wrappers/Htm
                     this.initialize(args);
                 }
             };
-            exports_154("Video", Video);
+            exports_150("Video", Video);
         }
     };
 });
-System.register("Mvc/View/Elements/Wbr", ["Di/Service", "Mvc/View/Wrappers/HtmlElement"], function (exports_155, context_155) {
+System.register("Mvc/View/Elements/Wbr", ["Di/Service", "Mvc/View/Wrappers/HtmlElement"], function (exports_151, context_151) {
     "use strict";
-    var __moduleName = context_155 && context_155.id;
+    var __moduleName = context_151 && context_151.id;
     var Service_104, HtmlElement_102, Wbr;
     return {
         setters: [
@@ -6770,13 +6138,13 @@ System.register("Mvc/View/Elements/Wbr", ["Di/Service", "Mvc/View/Wrappers/HtmlE
                     this.initialize(args);
                 }
             };
-            exports_155("Wbr", Wbr);
+            exports_151("Wbr", Wbr);
         }
     };
 });
-System.register("Mvc/View/Adapter/ElementAdapter", ["Mvc/View/Wrappers/HtmlElement", "Mvc/View/Elements/A", "Mvc/View/Elements/Abbr", "Mvc/View/Elements/Address", "Mvc/View/Elements/Area", "Mvc/View/Elements/Article", "Mvc/View/Elements/Aside", "Mvc/View/Elements/B", "Mvc/View/Elements/Base", "Mvc/View/Elements/Bdi", "Mvc/View/Elements/Bdo", "Mvc/View/Elements/Blockquote", "Mvc/View/Elements/Body", "Mvc/View/Elements/Br", "Mvc/View/Elements/Button", "Mvc/View/Elements/Canvas", "Mvc/View/Elements/Caption", "Mvc/View/Elements/Cite", "Mvc/View/Elements/Code", "Mvc/View/Elements/Col", "Mvc/View/Elements/ColGroup", "Mvc/View/Elements/Datalist", "Mvc/View/Elements/Db", "Mvc/View/Elements/Del", "Mvc/View/Elements/Details", "Mvc/View/Elements/Dfn", "Mvc/View/Elements/Dialog", "Mvc/View/Elements/Div", "Mvc/View/Elements/Dl", "Mvc/View/Elements/Dt", "Mvc/View/Elements/Em", "Mvc/View/Elements/Embed", "Mvc/View/Elements/Fieldset", "Mvc/View/Elements/Figcaption", "Mvc/View/Elements/Figure", "Mvc/View/Elements/Footer", "Mvc/View/Elements/Form", "Mvc/View/Elements/H1", "Mvc/View/Elements/H2", "Mvc/View/Elements/H3", "Mvc/View/Elements/H4", "Mvc/View/Elements/H5", "Mvc/View/Elements/H6", "Mvc/View/Elements/Head", "Mvc/View/Elements/Header", "Mvc/View/Elements/I", "Mvc/View/Elements/Iframe", "Mvc/View/Elements/Img", "Mvc/View/Elements/Input", "Mvc/View/Elements/Ins", "Mvc/View/Elements/Kbd", "Mvc/View/Elements/Keygen", "Mvc/View/Elements/Label", "Mvc/View/Elements/Leyend", "Mvc/View/Elements/Li", "Mvc/View/Elements/Link", "Mvc/View/Elements/Main", "Mvc/View/Elements/Menu", "Mvc/View/Elements/Menuitem", "Mvc/View/Elements/Meta", "Mvc/View/Elements/Meter", "Mvc/View/Elements/Nav", "Mvc/View/Elements/Noscrip", "Mvc/View/Elements/Obj", "Mvc/View/Elements/Ol", "Mvc/View/Elements/Optgroup", "Mvc/View/Elements/P", "Mvc/View/Elements/Param", "Mvc/View/Elements/Pre", "Mvc/View/Elements/Progress", "Mvc/View/Elements/Q", "Mvc/View/Elements/Rp", "Mvc/View/Elements/Rt", "Mvc/View/Elements/Ruby", "Mvc/View/Elements/S", "Mvc/View/Elements/Samp", "Mvc/View/Elements/Script", "Mvc/View/Elements/Section", "Mvc/View/Elements/Select", "Mvc/View/Elements/Small", "Mvc/View/Elements/Source", "Mvc/View/Elements/Span", "Mvc/View/Elements/Strong", "Mvc/View/Elements/Style", "Mvc/View/Elements/Sub", "Mvc/View/Elements/Summary", "Mvc/View/Elements/Sup", "Mvc/View/Elements/Td", "Mvc/View/Elements/Table", "Mvc/View/Elements/Tbody", "Mvc/View/Elements/Textarea", "Mvc/View/Elements/Tfoot", "Mvc/View/Elements/Th", "Mvc/View/Elements/Thead", "Mvc/View/Elements/Time", "Mvc/View/Elements/Title", "Mvc/View/Elements/Tr", "Mvc/View/Elements/Track", "Mvc/View/Elements/U", "Mvc/View/Elements/Ul", "Mvc/View/Elements/Var", "Mvc/View/Elements/Video", "Mvc/View/Elements/Wbr"], function (exports_156, context_156) {
+System.register("Mvc/View/Adapter/ElementAdapter", ["Mvc/View/Wrappers/HtmlElement", "Mvc/View/Elements/A", "Mvc/View/Elements/Abbr", "Mvc/View/Elements/Address", "Mvc/View/Elements/Area", "Mvc/View/Elements/Article", "Mvc/View/Elements/Aside", "Mvc/View/Elements/B", "Mvc/View/Elements/Base", "Mvc/View/Elements/Bdi", "Mvc/View/Elements/Bdo", "Mvc/View/Elements/Blockquote", "Mvc/View/Elements/Body", "Mvc/View/Elements/Br", "Mvc/View/Elements/Button", "Mvc/View/Elements/Canvas", "Mvc/View/Elements/Caption", "Mvc/View/Elements/Cite", "Mvc/View/Elements/Code", "Mvc/View/Elements/Col", "Mvc/View/Elements/ColGroup", "Mvc/View/Elements/Datalist", "Mvc/View/Elements/Db", "Mvc/View/Elements/Del", "Mvc/View/Elements/Details", "Mvc/View/Elements/Dfn", "Mvc/View/Elements/Dialog", "Mvc/View/Elements/Div", "Mvc/View/Elements/Dl", "Mvc/View/Elements/Dt", "Mvc/View/Elements/Em", "Mvc/View/Elements/Embed", "Mvc/View/Elements/Fieldset", "Mvc/View/Elements/Figcaption", "Mvc/View/Elements/Figure", "Mvc/View/Elements/Footer", "Mvc/View/Elements/Form", "Mvc/View/Elements/H1", "Mvc/View/Elements/H2", "Mvc/View/Elements/H3", "Mvc/View/Elements/H4", "Mvc/View/Elements/H5", "Mvc/View/Elements/H6", "Mvc/View/Elements/Head", "Mvc/View/Elements/Header", "Mvc/View/Elements/I", "Mvc/View/Elements/Iframe", "Mvc/View/Elements/Img", "Mvc/View/Elements/Input", "Mvc/View/Elements/Ins", "Mvc/View/Elements/Kbd", "Mvc/View/Elements/Keygen", "Mvc/View/Elements/Label", "Mvc/View/Elements/Leyend", "Mvc/View/Elements/Li", "Mvc/View/Elements/Link", "Mvc/View/Elements/Main", "Mvc/View/Elements/Menu", "Mvc/View/Elements/Menuitem", "Mvc/View/Elements/Meta", "Mvc/View/Elements/Meter", "Mvc/View/Elements/Nav", "Mvc/View/Elements/Noscrip", "Mvc/View/Elements/Obj", "Mvc/View/Elements/Ol", "Mvc/View/Elements/Optgroup", "Mvc/View/Elements/P", "Mvc/View/Elements/Param", "Mvc/View/Elements/Pre", "Mvc/View/Elements/Progress", "Mvc/View/Elements/Q", "Mvc/View/Elements/Rp", "Mvc/View/Elements/Rt", "Mvc/View/Elements/Ruby", "Mvc/View/Elements/S", "Mvc/View/Elements/Samp", "Mvc/View/Elements/Script", "Mvc/View/Elements/Section", "Mvc/View/Elements/Select", "Mvc/View/Elements/Small", "Mvc/View/Elements/Source", "Mvc/View/Elements/Span", "Mvc/View/Elements/Strong", "Mvc/View/Elements/Style", "Mvc/View/Elements/Sub", "Mvc/View/Elements/Summary", "Mvc/View/Elements/Sup", "Mvc/View/Elements/Td", "Mvc/View/Elements/Table", "Mvc/View/Elements/Tbody", "Mvc/View/Elements/Textarea", "Mvc/View/Elements/Tfoot", "Mvc/View/Elements/Th", "Mvc/View/Elements/Thead", "Mvc/View/Elements/Time", "Mvc/View/Elements/Title", "Mvc/View/Elements/Tr", "Mvc/View/Elements/Track", "Mvc/View/Elements/U", "Mvc/View/Elements/Ul", "Mvc/View/Elements/Var", "Mvc/View/Elements/Video", "Mvc/View/Elements/Wbr"], function (exports_152, context_152) {
     "use strict";
-    var __moduleName = context_156 && context_156.id;
+    var __moduleName = context_152 && context_152.id;
     var HtmlElement_103, A_1, Abbr_1, Address_1, Area_1, Article_1, Aside_1, B_1, Base_1, Bdi_1, Bdo_1, Blockquote_1, Body_1, Br_1, Button_1, Canvas_1, Caption_1, Cite_1, Code_1, Col_1, ColGroup_1, Datalist_1, Db_1, Del_1, Details_1, Dfn_1, Dialog_1, Div_1, Dl_1, Dt_1, Em_1, Embed_1, Fieldset_1, Figcaption_1, Figure_1, Footer_1, Form_1, H1_1, H2_1, H3_1, H4_1, H5_1, H6_1, Head_1, Header_1, I_3, Iframe_1, Img_1, Input_2, Ins_1, Kbd_1, Keygen_1, Label_1, Leyend_1, Li_1, Link_1, Main_1, Menu_1, Menuitem_1, Meta_1, Meter_1, Nav_1, Noscrip_1, Obj_1, Ol_1, Optgroup_1, P_1, Param_1, Pre_1, Progress_1, Q_1, Rp_1, Rt_1, Ruby_1, S_1, Samp_1, Script_1, Section_1, Select_1, Small_1, Source_1, Span_1, Strong_1, Style_1, Sub_1, Summary_1, Sup_1, Td_1, Table_1, Tbody_2, Textarea_1, Tfoot_2, Th_1, Thead_2, Time_1, Title_1, Tr_2, Track_1, U_1, Ul_1, Var_1, Video_1, Wbr_1, ElementAdapter;
     return {
         setters: [
@@ -7453,7 +6821,689 @@ System.register("Mvc/View/Adapter/ElementAdapter", ["Mvc/View/Wrappers/HtmlEleme
                     return instance;
                 }
             };
-            exports_156("ElementAdapter", ElementAdapter);
+            exports_152("ElementAdapter", ElementAdapter);
+        }
+    };
+});
+System.register("Mvc/View/Dom/ParentManager", ["Mvc/View/Adapter/ElementAdapter"], function (exports_153, context_153) {
+    "use strict";
+    var __moduleName = context_153 && context_153.id;
+    var ElementAdapter_2, ParentManager;
+    return {
+        setters: [
+            function (ElementAdapter_2_1) {
+                ElementAdapter_2 = ElementAdapter_2_1;
+            }
+        ],
+        execute: function () {
+            ParentManager = class ParentManager {
+                constructor() {
+                }
+                getParent() {
+                    let parent = this.element.parentElement;
+                    if (parent.nodeType == 1) {
+                        let adapter = new ElementAdapter_2.ElementAdapter(parent);
+                        let tagObject = adapter.get();
+                        return tagObject;
+                    }
+                    return false;
+                }
+                getSiblings() {
+                    let siblings = this.getParent().getChilds();
+                    if (siblings.length > 0) {
+                        let aux = new Array;
+                        for (let item of siblings) {
+                            if (item.getElement() != this.getElement()) {
+                                aux.push(item);
+                            }
+                        }
+                        return aux;
+                    }
+                    return false;
+                }
+                getChilds() {
+                    let childNodes = this.element.childNodes;
+                    let childs = new Array();
+                    for (let key in childNodes) {
+                        if (childNodes[key].nodeType == 1) {
+                            let adapter = new ElementAdapter_2.ElementAdapter(childNodes[key]);
+                            let tagObject = adapter.get();
+                            childs.push(tagObject);
+                        }
+                    }
+                    return childs;
+                }
+                /**
+                 *
+                 */
+                setElement(element) {
+                    this.element = element;
+                    return this;
+                }
+                /**
+                 *
+                 */
+                getElement() {
+                    return this.element;
+                }
+            };
+            exports_153("ParentManager", ParentManager);
+        }
+    };
+});
+System.register("Mvc/View/Dom/ElementManager", ["Mvc/View/Adapter/ElementAdapter"], function (exports_154, context_154) {
+    "use strict";
+    var __moduleName = context_154 && context_154.id;
+    var ElementAdapter_3, ElementManager;
+    return {
+        setters: [
+            function (ElementAdapter_3_1) {
+                ElementAdapter_3 = ElementAdapter_3_1;
+            }
+        ],
+        execute: function () {
+            /**
+             *
+             */
+            ElementManager = class ElementManager {
+                /**
+                 *
+                 * @param element
+                 */
+                constructor() {
+                }
+                /**
+                 *
+                 * @param element
+                 */
+                setElement(element) {
+                    this.element = element;
+                }
+                /**
+                 * Get document element
+                 * @return {document} element
+                 */
+                getElement() {
+                    return this.element;
+                }
+                /**
+                 *
+                 * @return
+                 */
+                getClassName() {
+                    let funcNameRegex = /function (.{1,})\(/;
+                    let results = (funcNameRegex).exec(this["constructor"].toString());
+                    return (results && results.length > 1) ? results[1] : "";
+                }
+                /**
+                 * Set id attribute
+                 * @param {String} id
+                 * @return this
+                 */
+                setId(id) {
+                    this.attr("id", id);
+                    return this;
+                }
+                /**
+                 * Get id attribute
+                 * @return {String}
+                 */
+                getId() {
+                    return this.attr("id");
+                }
+                /**
+                 * Set required attribute
+                 * å
+                 */
+                setRequired(req) {
+                    this.element.required = req;
+                    return this;
+                }
+                /**
+                 * Get required attribute
+                 * @return {Boolean}
+                 */
+                getRequired() {
+                    return this.element.required;
+                }
+                /**
+                 *
+                 * @param append
+                 */
+                checkAppendValue(append) {
+                    switch (typeof append) {
+                        case "string":
+                            this.element.appendChild(document.createTextNode(append));
+                            break;
+                        case "number":
+                            this.element.appendChild(document.createTextNode(append.toString()));
+                            break;
+                        case "object":
+                            if (typeof append.getElement() != "undefined") {
+                                this.verifyElement(append.getElement());
+                            }
+                            else {
+                                this.verifyElement(append);
+                            }
+                            break;
+                        default:
+                            break;
+                    }
+                }
+                /**
+                 *
+                 * @param append
+                 * @param type
+                 */
+                verifyElement(append, type = "append") {
+                    if (this.element instanceof HTMLCollection) {
+                        for (let key in this.element) {
+                            if (typeof this.element[key].nodeType != "undefined") {
+                                if (this.element[key].nodeType == 1) {
+                                    this.element[key].appendChild(append);
+                                }
+                            }
+                        }
+                    }
+                    else {
+                        this.element.appendChild(append);
+                    }
+                }
+                /**
+                 *
+                 * @param append
+                 */
+                append(append) {
+                    if (Array.isArray(append) || (append instanceof HTMLCollection)) {
+                        for (let key in append) {
+                            this.checkAppendValue(append[key]);
+                        }
+                    }
+                    else {
+                        this.checkAppendValue(append);
+                    }
+                    return this;
+                }
+                /**
+                 * Set class
+                 * @param  { String } attrClass
+                 * @return this
+                 */
+                class(attrClass) {
+                    this.element.setAttribute("class", attrClass);
+                    return this;
+                }
+                /**
+                 *
+                 * @param  { String } cssClass
+                 * @return
+                 */
+                addClass(attrClass) {
+                    let strClass = this.element.getAttribute("class");
+                    strClass += " " + attrClass;
+                    this.element.setAttribute("class", strClass);
+                    return this;
+                }
+                /**
+                 *
+                 * @param  { String } attribute
+                 * @return { this | attribute}
+                 */
+                attr(attr, value = false) {
+                    if (typeof attr == "object" && value == false) {
+                        for (let key in attr) {
+                            this.element.setAttribute(key, attr[key]);
+                        }
+                    }
+                    else if (typeof attr == "string" && value != false) {
+                        this.element.setAttribute(attr, value);
+                    }
+                    else if (typeof attr == "string" && value == false) {
+                        return this.element.getAttribute(attr);
+                    }
+                    return this;
+                }
+                /**
+                 *
+                 * @param {String} attribute
+                 */
+                removeAttr(attr) {
+                    this.element.removeAttribute(attr);
+                    return this;
+                }
+                /**
+                 *
+                 * @param
+                 * @return
+                 */
+                html(html = null) {
+                    if (html != null) {
+                        this.removeChildNodes();
+                        this.append(html);
+                        return this;
+                    }
+                    else {
+                        return this.element.innerHTML;
+                    }
+                }
+                /**
+                 *
+                 * @param html
+                 */
+                setHtml(html = null) {
+                    if (html = null) {
+                        this.removeChildNodes();
+                        this.append(html);
+                        return this;
+                    }
+                    else {
+                        return this.element.innerHTML;
+                    }
+                }
+                /**
+                 *
+                 */
+                removeChildNodes() {
+                    if (this.element instanceof HTMLCollection) {
+                        for (let key in this.element) {
+                            this.removeChilds(this.element[key], this.element[key].childNodes);
+                        }
+                    }
+                    else {
+                        this.removeChilds(this.element, this.element.childNodes);
+                    }
+                }
+                /**
+                 *
+                 */
+                removeChilds(element, childs) {
+                    while (element.firstChild) {
+                        element.removeChild(element.firstChild);
+                    }
+                }
+                /**
+                 *
+                 * @param  {any = null}        val [description]
+                 * @return {[type]}   [description]
+                 */
+                val(val = false) {
+                    if (val || typeof val == "string") {
+                        this.element.value = val;
+                        this.attr("value", val);
+                        return this;
+                    }
+                    else {
+                        return this.element.value;
+                    }
+                }
+                /**
+                 *
+                 * @param  {any = null}        val [description]
+                 * @return {[type]}   [description]
+                 */
+                getValue(val = false) {
+                    if (val || typeof val == "string") {
+                        this.element.value = val;
+                        this.attr("value", val);
+                        return this;
+                    }
+                    else {
+                        return this.element.value;
+                    }
+                }
+                /**
+                 *
+                 */
+                valAsInt() {
+                    return parseInt(this.val());
+                }
+                /**
+                 *
+                 * @param  {any = null}        text [description]
+                 * @return {[type]}   [description]
+                 */
+                text(text = false) {
+                    if (text) {
+                        this.element.innerHtml = text;
+                        return this;
+                    }
+                    else {
+                        return this.element.innerHtml;
+                    }
+                }
+                /**
+                 *
+                 */
+                empty() {
+                    this.removeChildNodes();
+                    return this;
+                }
+                /**
+                 *
+                 * @param element
+                 */
+                remove(element = false) {
+                    if (element) {
+                        this.getElement().removeChild(element);
+                    }
+                    else {
+                        this.getElement().parentElement.removeChild(this.getElement());
+                    }
+                }
+                /**
+                 *
+                 */
+                getAsObject() {
+                    let childs = this.element.childNodes;
+                    let obj = new Array();
+                    if (childs instanceof NodeList) {
+                        for (let key in childs) {
+                            if (typeof childs[key].nodeType != "undefined") {
+                                switch (childs[key].nodeType) {
+                                    case Node.ELEMENT_NODE:
+                                        let adapter = new ElementAdapter_3.ElementAdapter(childs[key]);
+                                        let auxElement = adapter.get();
+                                        let finalObj = {};
+                                        let auxObject = auxElement.getAsObject();
+                                        finalObj[auxElement.getClassName().toLowerCase()] = auxObject;
+                                        if (auxObject.length > 0) {
+                                            obj.push(finalObj);
+                                        }
+                                        break;
+                                    case Node.TEXT_NODE:
+                                        obj.push(childs[key].nodeValue);
+                                        break;
+                                }
+                            }
+                        }
+                    }
+                    return obj;
+                }
+                /**
+                 *
+                 */
+                getAsJson() {
+                    let objects = this.getAsObject();
+                    return JSON.stringify(objects);
+                }
+            };
+            exports_154("ElementManager", ElementManager);
+        }
+    };
+});
+System.register("Mvc/View/Wrappers/HtmlElement", [], function (exports_155, context_155) {
+    "use strict";
+    var __moduleName = context_155 && context_155.id;
+    var HtmlElement;
+    return {
+        setters: [],
+        execute: function () {
+            HtmlElement = class HtmlElement {
+                /**
+                 *
+                 * @param tagName
+                 */
+                constructor() {
+                    this.CSS_MANAGER = "Chronos.Dom.CssManager";
+                    this.PARENT_MANAGER = "Chronos.Dom.DomManager";
+                    this.ELEMENT_MANAGER = "Chronos.Dom.ElementManager";
+                    let localDecorator = new Proxy(this, this.getValidator());
+                    return localDecorator;
+                }
+                initialize(args = {}) {
+                }
+                /**
+                 *
+                 * @param viewModel
+                 */
+                set(data) {
+                    this.viewModelData = data;
+                }
+                /**
+                 *
+                 */
+                get(key) {
+                    return this.viewModelData[key];
+                }
+                /**
+                 *
+                 */
+                setElement(element) {
+                    this.element = element;
+                    return this;
+                }
+                /**
+                 *
+                 */
+                getElement() {
+                    return this.element;
+                }
+                /**
+                 *
+                 */
+                getCss() {
+                    let css = this.getDi().get(this.CSS_MANAGER);
+                    css.setElement(this.getElement());
+                    return css;
+                }
+                /**
+                 *
+                 */
+                getElementManager() {
+                    let em = this.getDi().get(this.ELEMENT_MANAGER);
+                    em.setElement(this.getElement());
+                    return em;
+                }
+                /**
+                 *
+                 */
+                getParentManager() {
+                    let pm = this.getDi().get(this.PARENT_MANAGER);
+                    pm.setElement(this.getElement());
+                    return pm;
+                }
+                getEventManager() {
+                    let em = this.getDi().get("eventManager");
+                    em.setElement(this.getElement());
+                    return em;
+                }
+                /**
+                 *
+                 * @param tagName
+                 */
+                create(tagName) {
+                    this.element = document.createElement(tagName);
+                    return this;
+                }
+                /**
+                 * [getClassName description]
+                 * @return {[type]} [description]
+                 */
+                getClassName() {
+                    let funcNameRegex = /function (.{1,})\(/;
+                    let results = (funcNameRegex).exec(this["constructor"].toString());
+                    return (results && results.length > 1) ? results[1] : "";
+                }
+                /**
+                 *
+                 */
+                getChecksum() {
+                    let str = this.getClassName() + JSON.stringify(this);
+                    return window.btoa(encodeURIComponent(str));
+                }
+                /**
+                 *
+                 */
+                getValidator() {
+                    let validator = {
+                        get: function get(obj, prop) {
+                            switch (prop) {
+                                case "append":
+                                    return this.getElementManager().append;
+                                case "attr":
+                                    return this.getElementManager().attr;
+                                case "setAttribute":
+                                    return this.getElementManager().setAttribute;
+                                case "removeAttribute":
+                                    return this.getElementManager().removeAttribute;
+                                case "class":
+                                    return this.getElementManager().class;
+                                case "addClass":
+                                    return this.getElementManager().addClass;
+                                case "removeClass":
+                                    return this.getElementManager().removeClass;
+                                case "setId":
+                                    return this.getElementManager().setId;
+                                case "getId":
+                                    return this.getElementManager().getId;
+                                case "setRequired":
+                                    return this.getElementManager().setRequired;
+                                case "getRequired":
+                                    return this.getElementManager().getRequired;
+                                case "html":
+                                    return this.getElementManager().html;
+                                case "setHtml":
+                                    return this.getElementManager().setHtml;
+                                case "setValue":
+                                    return this.getElementManager().setValue;
+                                case "val":
+                                    return this.getElementManager().val;
+                                case "getValue":
+                                    return this.getElementManager().getValue;
+                                case "valAsInt":
+                                    return this.getElementManager().valAsInt;
+                                case "text":
+                                    return this.getElementManager().text;
+                                case "empty":
+                                    return this.getElementManager().empty;
+                                case "remove":
+                                    return this.getElementManager().remove;
+                                case "getAsObject":
+                                    return this.getElementManager().getAsObject;
+                                case "getAsJson":
+                                    return this.getElementManager().getAsJson;
+                                case "getSibilings":
+                                    return this.getParentManager().getSiblings;
+                                case "getParent":
+                                    return this.getParentManager().getParent;
+                                case "getChilds":
+                                    return this.getParentManager().getChilds;
+                                case "click":
+                                    return this.getParentManager().click;
+                                case "doubleClick":
+                                    return this.getParentManager().doubleClick;
+                                case "change":
+                                    return this.getParentManager().change;
+                                case "keypress":
+                                    return this.getParentManager().keypress;
+                                case "keydown":
+                                    return this.getParentManager().keydown;
+                                case "keyup":
+                                    return this.getParentManager().keyup;
+                                case "paste":
+                                    return this.getParentManager().paste;
+                                case "blur":
+                                    return this.getParentManager().blur;
+                                case "focus":
+                                    return this.getParentManager().focus;
+                                case "submit":
+                                    return this.getParentManager().submit;
+                                case "show":
+                                    return this.getCss().show;
+                                case "hide":
+                                    return this.getCss().hide;
+                                case "css":
+                                    return this.getCss().css;
+                                case "setStyle":
+                                    return this.getCss().setStyle;
+                                default:
+                                    return obj[prop];
+                            }
+                        }
+                    };
+                    return validator;
+                }
+                /**
+                 *
+                 * @param di
+                 */
+                setDi(di) {
+                    this.di = di;
+                    return this;
+                }
+                /**
+                 *
+                 */
+                getDi() {
+                    return this.di;
+                }
+            };
+            exports_155("HtmlElement", HtmlElement);
+        }
+    };
+});
+System.register("Mvc/View/ViewModel", ["Mvc/View/Wrappers/HtmlElement"], function (exports_156, context_156) {
+    "use strict";
+    var __moduleName = context_156 && context_156.id;
+    var HtmlElement_104, ViewModel;
+    return {
+        setters: [
+            function (HtmlElement_104_1) {
+                HtmlElement_104 = HtmlElement_104_1;
+            }
+        ],
+        execute: function () {
+            ViewModel = class ViewModel {
+                /**
+                 *
+                 * @param data
+                 */
+                constructor() {
+                    this.data = {};
+                }
+                /**
+                 *
+                 * @param elements
+                 */
+                resolveViews() {
+                    if (Array.isArray(this.views.elements)) {
+                        for (let item of this.views.elements) {
+                            let instance = new item();
+                            instance.set(this.data);
+                            instance.initialize();
+                        }
+                    }
+                    else {
+                        let instance = new this.views.elements;
+                        if (instance instanceof HtmlElement_104.HtmlElement) {
+                            instance.set(this.data);
+                            instance.initialize();
+                        }
+                    }
+                }
+                /**
+                 *
+                 */
+                initializeViews(view) {
+                }
+                set(data) {
+                    if (typeof this.data == "object") {
+                        throw "Data passed to view model must be an object with key, value";
+                    }
+                    this.data = data;
+                    this.resolveViews();
+                }
+                setElements(views) {
+                    this.views = views;
+                }
+                getElements() {
+                    return this.views;
+                }
+                get(key) {
+                    return this.data[key];
+                }
+            };
+            exports_156("ViewModel", ViewModel);
         }
     };
 });
@@ -7573,11 +7623,11 @@ System.register("Mvc/View/Dom/DomManager", ["Mvc/View/Adapter/ElementAdapter"], 
 System.register("Mvc/View/Elements/Audio", ["Mvc/View/Wrappers/HtmlElement", "Di/Service"], function (exports_158, context_158) {
     "use strict";
     var __moduleName = context_158 && context_158.id;
-    var HtmlElement_104, Service_105, Audio;
+    var HtmlElement_105, Service_105, Audio;
     return {
         setters: [
-            function (HtmlElement_104_1) {
-                HtmlElement_104 = HtmlElement_104_1;
+            function (HtmlElement_105_1) {
+                HtmlElement_105 = HtmlElement_105_1;
             },
             function (Service_105_1) {
                 Service_105 = Service_105_1;
@@ -7588,7 +7638,7 @@ System.register("Mvc/View/Elements/Audio", ["Mvc/View/Wrappers/HtmlElement", "Di
              * [ViewElement description]
              * @type {[type]}
              */
-            Audio = class Audio extends HtmlElement_104.HtmlElement {
+            Audio = class Audio extends HtmlElement_105.HtmlElement {
                 /**
                  *
                  */
@@ -7636,14 +7686,14 @@ System.register("Mvc/View/Elements/Hidden", ["Mvc/View/Elements/Input"], functio
 System.register("Mvc/View/Elements/Hr", ["Di/Service", "Mvc/View/Wrappers/HtmlElement"], function (exports_160, context_160) {
     "use strict";
     var __moduleName = context_160 && context_160.id;
-    var Service_106, HtmlElement_105, Hr;
+    var Service_106, HtmlElement_106, Hr;
     return {
         setters: [
             function (Service_106_1) {
                 Service_106 = Service_106_1;
             },
-            function (HtmlElement_105_1) {
-                HtmlElement_105 = HtmlElement_105_1;
+            function (HtmlElement_106_1) {
+                HtmlElement_106 = HtmlElement_106_1;
             }
         ],
         execute: function () {
@@ -7651,7 +7701,7 @@ System.register("Mvc/View/Elements/Hr", ["Di/Service", "Mvc/View/Wrappers/HtmlEl
              * [ViewElement description]
              * @type {[type]}
              */
-            Hr = class Hr extends HtmlElement_105.HtmlElement {
+            Hr = class Hr extends HtmlElement_106.HtmlElement {
                 /**
                  *
                  */
@@ -7669,14 +7719,14 @@ System.register("Mvc/View/Elements/Hr", ["Di/Service", "Mvc/View/Wrappers/HtmlEl
 System.register("Mvc/View/Elements/Map", ["Di/Service", "Mvc/View/Wrappers/HtmlElement"], function (exports_161, context_161) {
     "use strict";
     var __moduleName = context_161 && context_161.id;
-    var Service_107, HtmlElement_106, Map;
+    var Service_107, HtmlElement_107, Map;
     return {
         setters: [
             function (Service_107_1) {
                 Service_107 = Service_107_1;
             },
-            function (HtmlElement_106_1) {
-                HtmlElement_106 = HtmlElement_106_1;
+            function (HtmlElement_107_1) {
+                HtmlElement_107 = HtmlElement_107_1;
             }
         ],
         execute: function () {
@@ -7684,7 +7734,7 @@ System.register("Mvc/View/Elements/Map", ["Di/Service", "Mvc/View/Wrappers/HtmlE
              * [ViewElement description]
              * @type {[type]}
              */
-            Map = class Map extends HtmlElement_106.HtmlElement {
+            Map = class Map extends HtmlElement_107.HtmlElement {
                 /**
                  *
                  */
@@ -7702,14 +7752,14 @@ System.register("Mvc/View/Elements/Map", ["Di/Service", "Mvc/View/Wrappers/HtmlE
 System.register("Mvc/View/Elements/Output", ["Di/Service", "Mvc/View/Wrappers/HtmlElement"], function (exports_162, context_162) {
     "use strict";
     var __moduleName = context_162 && context_162.id;
-    var Service_108, HtmlElement_107, Output;
+    var Service_108, HtmlElement_108, Output;
     return {
         setters: [
             function (Service_108_1) {
                 Service_108 = Service_108_1;
             },
-            function (HtmlElement_107_1) {
-                HtmlElement_107 = HtmlElement_107_1;
+            function (HtmlElement_108_1) {
+                HtmlElement_108 = HtmlElement_108_1;
             }
         ],
         execute: function () {
@@ -7717,7 +7767,7 @@ System.register("Mvc/View/Elements/Output", ["Di/Service", "Mvc/View/Wrappers/Ht
              * [ViewElement description]
              * @type {[type]}
              */
-            Output = class Output extends HtmlElement_107.HtmlElement {
+            Output = class Output extends HtmlElement_108.HtmlElement {
                 /**
                  *
                  */
@@ -7964,29 +8014,9 @@ System.register("Persistence/ComparisonOperators", [], function (exports_165, co
         }
     };
 });
-System.register("Persistence/DatamapperOperators", [], function (exports_166, context_166) {
+System.register("Persistence/DataType", [], function (exports_166, context_166) {
     "use strict";
     var __moduleName = context_166 && context_166.id;
-    var DatamapperOperators;
-    return {
-        setters: [],
-        execute: function () {
-            DatamapperOperators = class DatamapperOperators {
-            };
-            DatamapperOperators.OR = "$or";
-            DatamapperOperators.AND = "$and";
-            DatamapperOperators.SORT = "$sort";
-            DatamapperOperators.IS_NOT = "$isNot";
-            DatamapperOperators.LIMIT = "$limit";
-            DatamapperOperators.COLUMNS = "$columns";
-            DatamapperOperators.CONDITIONAL = "$conditions";
-            exports_166("DatamapperOperators", DatamapperOperators);
-        }
-    };
-});
-System.register("Persistence/DataType", [], function (exports_167, context_167) {
-    "use strict";
-    var __moduleName = context_167 && context_167.id;
     var DataType;
     return {
         setters: [],
@@ -8015,7 +8045,27 @@ System.register("Persistence/DataType", [], function (exports_167, context_167) 
             DataType.INTEGER_TYPE = "number";
             DataType.STRING_TYPE = "string";
             DataType.OBJECT_TYPE = "object";
-            exports_167("DataType", DataType);
+            exports_166("DataType", DataType);
+        }
+    };
+});
+System.register("Persistence/DatamapperOperators", [], function (exports_167, context_167) {
+    "use strict";
+    var __moduleName = context_167 && context_167.id;
+    var DatamapperOperators;
+    return {
+        setters: [],
+        execute: function () {
+            DatamapperOperators = class DatamapperOperators {
+            };
+            DatamapperOperators.OR = "$or";
+            DatamapperOperators.AND = "$and";
+            DatamapperOperators.SORT = "$sort";
+            DatamapperOperators.IS_NOT = "$isNot";
+            DatamapperOperators.LIMIT = "$limit";
+            DatamapperOperators.COLUMNS = "$columns";
+            DatamapperOperators.CONDITIONAL = "$conditions";
+            exports_167("DatamapperOperators", DatamapperOperators);
         }
     };
 });
